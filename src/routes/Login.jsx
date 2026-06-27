@@ -7,7 +7,7 @@ import loginAnimation from "../utils/loginAnimations";
 
 function Login() {
   return (
-    <div className="h-full bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 flex items-center justify-center">
       <motion.div
         variants={loginAnimation.container}
         initial="hidden"
@@ -16,7 +16,7 @@ function Login() {
       >
         <motion.div
           variants={loginAnimation.fadeUp}
-          className="bg-white bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 shadow-2xl p-8 border border-blue-100"
+          className="bg-white bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 p-8 border border-blue-100"
         >
           <motion.div
             variants={loginAnimation.logo}
