@@ -12,7 +12,7 @@ function Login() {
         variants={loginAnimation.container}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-sm"
+        className="w-full"
       >
         <motion.div
           variants={loginAnimation.fadeUp}
