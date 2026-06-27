@@ -31,7 +31,7 @@ function Login() {
             variants={loginAnimation.fadeUp}
             className="text-center mt-6"
           >
-            <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
+            <h1 className="text-3xl font-bold text-slate-900">Welcome to Learning App</h1>
 
             <p className="text-slate-500 mt-2 leading-relaxed">
               Continue learning delicious recipes and improve your cooking
