@@ -7,7 +7,7 @@ import loginAnimation from "../utils/loginAnimations";
 
 function Login() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="h-full bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 flex items-center justify-center">
       <motion.div
         variants={loginAnimation.container}
         initial="hidden"
