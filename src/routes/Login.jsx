@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Phone, Lock, ArrowRight } from "lucide-react";
 import logo from "../assets/images/logo.png";
 import loginAnimation from "../utils/loginAnimations";
-
+import { Link } from "react-router-dom";
 function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 flex items-center justify-center">
@@ -31,7 +31,9 @@ function Login() {
             variants={loginAnimation.fadeUp}
             className="text-center mt-6"
           >
-            <h1 className="text-3xl font-bold text-slate-900">Welcome to Learning App</h1>
+            <h1 className="text-3xl font-bold text-slate-900">
+              Welcome to Learning App
+            </h1>
 
             <p className="text-slate-500 mt-2 leading-relaxed">
               Continue learning delicious recipes and improve your cooking
@@ -83,17 +85,17 @@ function Login() {
               </motion.div>
             </motion.div>
 
-           
-
-            <motion.button
-              variants={loginAnimation.button}
-              whileHover="whileHover"
-              whileTap="whileTap"
-              className="w-full h-14 rounded-2xl bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-500 text-white font-semibold text-lg flex items-center justify-center gap-2 shadow-xl shadow-blue-300"
-            >
-              Log In
-              <ArrowRight size={20} />
-            </motion.button>
+            <Link to={"/dashboard"}>
+              <motion.button
+                variants={loginAnimation.button}
+                whileHover="whileHover"
+                whileTap="whileTap"
+                className="w-full h-14 rounded-2xl bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-500 text-white font-semibold text-lg flex items-center justify-center gap-2 shadow-xl shadow-blue-300"
+              >
+                Log In
+                <ArrowRight size={20} />
+              </motion.button>
+            </Link>
           </motion.form>
 
           <motion.div
