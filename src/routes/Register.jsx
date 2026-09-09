@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import {
   ChefHat,
   Soup,
+  User,
   Mail,
+  Phone,
+  GraduationCap,
+  BookOpen,
   Lock,
   Eye,
   EyeOff,
@@ -10,12 +14,18 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [formData, setFormData] = useState({
+    fullName: "",
     email: "",
+    mobileNumber: "",
+    yearLevel: "",
+    course: "",
     password: "",
+    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -30,9 +40,21 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Login Data:", formData);
+    // Password validation
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
 
-    // Connect your Django login API here.
+    // Mobile number validation
+    if (!/^09\d{9}$/.test(formData.mobileNumber)) {
+      alert("Please enter a valid mobile number starting with 09.");
+      return;
+    }
+
+    console.log("Registration Data:", formData);
+
+    // Connect your Django registration API here.
   };
 
   return (
@@ -164,7 +186,7 @@ export default function Login() {
             LOGO
         ===================================================== */}
 
-        <div className="relative flex items-center justify-center mt-8 mb-4">
+        <div className="relative flex items-center justify-center mt-2 mb-3">
           {/* Fork */}
           <div className="text-green-700 mr-[-10px] z-20">
             <svg className="w-10 h-14" viewBox="0 0 24 24" fill="currentColor">
@@ -213,33 +235,71 @@ export default function Login() {
         </h1>
 
         <p className="text-gray-800 font-medium text-base mt-1">
-          Welcome back!
+          Create your account
         </p>
 
         {/* =====================================================
             DIVIDER
         ===================================================== */}
 
-        <div className="relative w-full flex items-center justify-center my-6">
+        <div className="relative w-full flex items-center justify-center my-4">
           <div className="absolute w-full border-t border-green-700/60"></div>
-
           <div className="relative z-10 w-2.5 h-2.5 bg-green-700 rounded-full"></div>
         </div>
 
         {/* =====================================================
-            LOGIN FORM
+            FORM
         ===================================================== */}
 
-        <form onSubmit={handleSubmit} className="w-full">
+        <form onSubmit={handleSubmit} className="w-full space-y-3">
+          {/* FULL NAME */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">
+              Full Name
+            </label>
+
+            <div className="relative">
+              <User
+                size={17}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+              />
+
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Enter your full name"
+                required
+                className="
+                  w-full
+                  h-11
+                  pl-10 pr-3
+                  bg-gray-50
+                  border border-gray-200
+                  rounded-xl
+                  text-sm
+                  text-gray-800
+                  placeholder-gray-400
+                  outline-none
+                  focus:border-[#2d682c]
+                  focus:ring-2
+                  focus:ring-[#2d682c]/10
+                  transition
+                "
+              />
+            </div>
+          </div>
+
           {/* EMAIL */}
-          <div className="mb-4">
-            <label className="block text-xs font-semibold text-gray-600 mb-1.5 ml-1">
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">
               Email
             </label>
 
             <div className="relative">
               <Mail
-                size={18}
+                size={17}
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
               />
 
@@ -249,12 +309,141 @@ export default function Login() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                autoComplete="email"
                 required
                 className="
                   w-full
-                  h-12
-                  pl-11 pr-4
+                  h-11
+                  pl-10 pr-3
+                  bg-gray-50
+                  border border-gray-200
+                  rounded-xl
+                  text-sm
+                  text-gray-800
+                  placeholder-gray-400
+                  outline-none
+                  focus:border-[#2d682c]
+                  focus:ring-2
+                  focus:ring-[#2d682c]/10
+                  transition
+                "
+              />
+            </div>
+          </div>
+
+          {/* MOBILE NUMBER */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">
+              Mobile Number
+            </label>
+
+            <div className="relative">
+              <Phone
+                size={17}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+              />
+
+              <input
+                type="tel"
+                name="mobileNumber"
+                value={formData.mobileNumber}
+                onChange={handleChange}
+                placeholder="09XXXXXXXXX"
+                maxLength={11}
+                inputMode="numeric"
+                required
+                className="
+                  w-full
+                  h-11
+                  pl-10 pr-3
+                  bg-gray-50
+                  border border-gray-200
+                  rounded-xl
+                  text-sm
+                  text-gray-800
+                  placeholder-gray-400
+                  outline-none
+                  focus:border-[#2d682c]
+                  focus:ring-2
+                  focus:ring-[#2d682c]/10
+                  transition
+                "
+              />
+            </div>
+          </div>
+
+          {/* YEAR LEVEL */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">
+              Year Level
+            </label>
+
+            <div className="relative">
+              <GraduationCap
+                size={17}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c] z-10"
+              />
+
+              <select
+                name="yearLevel"
+                value={formData.yearLevel}
+                onChange={handleChange}
+                required
+                className="
+                  appearance-none
+                  w-full
+                  h-11
+                  pl-10 pr-10
+                  bg-gray-50
+                  border border-gray-200
+                  rounded-xl
+                  text-sm
+                  text-gray-700
+                  outline-none
+                  focus:border-[#2d682c]
+                  focus:ring-2
+                  focus:ring-[#2d682c]/10
+                  transition
+                "
+              >
+                <option value="" disabled>
+                  Select year level
+                </option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+              </select>
+
+              <ArrowRight
+                size={16}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 rotate-90 text-gray-400 pointer-events-none"
+              />
+            </div>
+          </div>
+
+          {/* COURSE */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">
+              Course
+            </label>
+
+            <div className="relative">
+              <BookOpen
+                size={17}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+              />
+
+              <input
+                type="text"
+                name="course"
+                value={formData.course}
+                onChange={handleChange}
+                placeholder="Enter your course"
+                required
+                className="
+                  w-full
+                  h-11
+                  pl-10 pr-3
                   bg-gray-50
                   border border-gray-200
                   rounded-xl
@@ -272,14 +461,14 @@ export default function Login() {
           </div>
 
           {/* PASSWORD */}
-          <div className="mb-2">
-            <label className="block text-xs font-semibold text-gray-600 mb-1.5 ml-1">
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">
               Password
             </label>
 
             <div className="relative">
               <Lock
-                size={18}
+                size={17}
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
               />
 
@@ -288,13 +477,12 @@ export default function Login() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Enter your password"
-                autoComplete="current-password"
+                placeholder="Create a password"
                 required
                 className="
                   w-full
-                  h-12
-                  pl-11 pr-11
+                  h-11
+                  pl-10 pr-11
                   bg-gray-50
                   border border-gray-200
                   rounded-xl
@@ -312,81 +500,98 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="
-                  absolute
-                  right-3.5
-                  top-1/2
-                  -translate-y-1/2
-                  text-gray-400
-                  hover:text-[#2d682c]
-                  transition
-                "
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2d682c]"
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
               </button>
             </div>
           </div>
 
-          {/* LOGIN BUTTON */}
-          {/* <button
+          {/* CONFIRM PASSWORD */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">
+              Confirm Password
+            </label>
+
+            <div className="relative">
+              <Lock
+                size={17}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+              />
+
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                required
+                className="
+                  w-full
+                  h-11
+                  pl-10 pr-11
+                  bg-gray-50
+                  border border-gray-200
+                  rounded-xl
+                  text-sm
+                  text-gray-800
+                  placeholder-gray-400
+                  outline-none
+                  focus:border-[#2d682c]
+                  focus:ring-2
+                  focus:ring-[#2d682c]/10
+                  transition
+                "
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2d682c]"
+              >
+                {showConfirmPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+              </button>
+            </div>
+          </div>
+
+          {/* REGISTER BUTTON */}
+          <button
             type="submit"
             className="
               w-full
               flex
               items-center
               justify-center
-              gap-2 mt-8
+              gap-2
               bg-[#2d682c]
               hover:bg-[#245523]
               text-white
               font-semibold
-              py-3.5
+              py-3
               rounded-xl
               shadow-md
               transition-all
               duration-200
               active:scale-[0.98]
+              mt-4
             "
           >
-            Login
-            <ArrowRight size={19} />
-          </button> */}
-
-          <Link
-            to={"/dashboard"}
-            className="
-              w-full
-              flex
-              items-center
-              justify-center
-              gap-2 mt-8
-              bg-[#2d682c]
-              hover:bg-[#245523]
-              text-white
-              font-semibold
-              py-3.5
-              rounded-xl
-              shadow-md
-              transition-all
-              duration-200
-              active:scale-[0.98]
-            "
-          >
-            Login
-            <ArrowRight size={19} />
-          </Link>
+            Create Account
+            <ArrowRight size={18} />
+          </button>
         </form>
 
         {/* =====================================================
-            REGISTER LINK
+            LOGIN LINK
         ===================================================== */}
 
-        <div className="flex items-center justify-center mt-6">
-          <p className="text-xs text-gray-500">Don't have an account?</p>
+        <div className="text-center mt-5 mb-6">
+          <p className="text-xs text-gray-500 inline">
+            Already have an account?
+          </p>
 
           <Link
-            to={"/register"}
+            to={"/login"}
             className="
               ml-1
               text-sm
@@ -396,17 +601,9 @@ export default function Login() {
               transition
             "
           >
-            Register
+            Login
           </Link>
         </div>
-
-        {/* =====================================================
-            FOOTER
-        ===================================================== */}
-
-        <p className="text-center text-[10px] text-gray-400 mt-6 mb-4">
-          Learn. Cook. Succeed.
-        </p>
       </div>
     </div>
   );
