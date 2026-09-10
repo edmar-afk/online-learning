@@ -6,6 +6,7 @@ import Register from "./routes/Register";
 import Lessons from "./routes/Lessons";
 import Profile from "./routes/Profile";
 import Progress from "./routes/Progress";
+import Quizzes from "./routes/Quizzes";
 function Logout() {
   localStorage.clear();
   return <Navigate to="/" />;
@@ -22,6 +23,7 @@ function App() {
         <Route path="/lessons" element={<Lessons/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/progress" element={<Progress/>} />
+        <Route path="/quizzes" element={<Quizzes/>} />
 
         <Route path="/logout" element={<Logout/>} />
       </Routes>
