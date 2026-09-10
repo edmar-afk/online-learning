@@ -26,7 +26,7 @@ export default function DashboardHeader() {
       </div>
 
       {/* Search Bar */}
-      <div className="relative -mb-10 ">
+      <div className="relative -mb-10 shadow-xl rounded-full">
         <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
           <FiSearch className="text-lg" />
         </span>
