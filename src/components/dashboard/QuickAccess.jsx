@@ -54,19 +54,19 @@ export default function QuickAccess() {
           color="bg-amber-500"
         />
 
-        <QuickAccessItem
+        {/* <QuickAccessItem
           icon={<FiClipboard className="text-xl" />}
           label="Recipe Guides"
           link="/recipe-guides"
           color="bg-emerald-600"
-        />
+        /> */}
 
-        <QuickAccessItem
+        {/* <QuickAccessItem
           icon={<FiVideo className="text-xl" />}
           label="Videos"
           link="/videos"
           color="bg-blue-500"
-        />
+        /> */}
 
         <QuickAccessItem
           icon={<FiEdit3 className="text-xl" />}
@@ -88,13 +88,13 @@ export default function QuickAccess() {
           link="/progress"
           color="bg-purple-500"
         />
-
+{/* 
         <QuickAccessItem
           icon={<FiBookmark className="text-xl" />}
           label="Bookmarks"
           link="/bookmarks"
           color="bg-emerald-500"
-        />
+        /> */}
       </div>
     </section>
   );
