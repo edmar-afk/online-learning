@@ -8,10 +8,15 @@ import {
   EyeOff,
   ArrowRight,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import api from "../assets/api";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -27,20 +32,119 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Login Data:", formData);
+    if (isSubmitting) return;
 
-    // Connect your Django login API here.
+    const username = formData.email.trim();
+    const password = formData.password;
+
+    if (!username || !password) {
+      await Swal.fire({
+        icon: "warning",
+        title: "Missing Information",
+        text: "Please enter your email or school ID and password.",
+        confirmButtonColor: "#2d682c",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Django SimpleJWT expects username and password.
+      // Teachers use their email as their username.
+      // Students use their school ID as their username.
+      const response = await api.post("/login/", {
+        username,
+        password,
+      });
+
+      const { access, refresh, user } = response.data;
+
+      if (!access || !refresh || !user) {
+        throw new Error("The server returned an incomplete login response.");
+      }
+
+      // Include the complete Django user object, its extra_info,
+      // and the authentication tokens in the saved user information.
+      const userInfo = {
+        ...user,
+        extra_info: user.extra_info || {},
+        access,
+        refresh,
+      };
+
+      // Save all user information in localStorage.
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+      // Display success before redirecting.
+      await Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: `Welcome back, ${user.first_name || user.username}!`,
+        confirmButtonColor: "#2d682c",
+        timer: 1500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+      });
+
+      navigate("/dashboard", { replace: true });
+    } catch (error) {
+      // Do not leave stale or invalid user information after a failed login.
+      localStorage.removeItem("userInfo");
+
+      const data = error.response?.data;
+
+      let errorMessage =
+        "Unable to log in. Please check your connection and try again.";
+
+      if (error.response) {
+        if (data?.detail) {
+          errorMessage = data.detail;
+        } else if (data?.non_field_errors) {
+          errorMessage = Array.isArray(data.non_field_errors)
+            ? data.non_field_errors.join(" ")
+            : data.non_field_errors;
+        } else if (data?.username) {
+          errorMessage = Array.isArray(data.username)
+            ? data.username.join(" ")
+            : data.username;
+        } else if (data?.password) {
+          errorMessage = Array.isArray(data.password)
+            ? data.password.join(" ")
+            : data.password;
+        } else if (data && typeof data === "object") {
+          errorMessage = Object.entries(data)
+            .map(([field, value]) => {
+              const message = Array.isArray(value)
+                ? value.join(" ")
+                : String(value);
+
+              return `${field}: ${message}`;
+            })
+            .join("\n");
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
+      await Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: errorMessage,
+        confirmButtonColor: "#2d682c",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="relative flex flex-col items-center min-h-screen bg-white px-6 py-8 overflow-hidden font-sans select-none">
-      {/* =====================================================
-          BACKGROUND DECORATIVE OUTLINE ICONS
-      ===================================================== */}
-
+      {/* BACKGROUND DECORATIVE OUTLINE ICONS */}
       <div className="absolute inset-0 pointer-events-none opacity-10">
         {/* Top Left - Tomato */}
         <div className="absolute top-8 left-8 text-green-700">
@@ -155,19 +259,17 @@ export default function Login() {
         </div>
       </div>
 
-      {/* =====================================================
-          MAIN CONTENT
-      ===================================================== */}
-
+      {/* MAIN CONTENT */}
       <div className="relative z-10 flex flex-col items-center w-full max-w-xs">
-        {/* =====================================================
-            LOGO
-        ===================================================== */}
-
+        {/* LOGO */}
         <div className="relative flex items-center justify-center mt-8 mb-4">
           {/* Fork */}
           <div className="text-green-700 mr-[-10px] z-20">
-            <svg className="w-10 h-14" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              className="w-10 h-14"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <path d="M7 2v6c0 1.1.9 2 2 2h0c1.1 0 2-.9 2-2V2h2v6c0 2.21-1.79 4-4 4s-4-1.79-4-4V2h2zm2 13h2v7H9v-7z" />
             </svg>
           </div>
@@ -196,16 +298,17 @@ export default function Login() {
 
           {/* Spoon */}
           <div className="text-green-700 ml-[-10px] z-20">
-            <svg className="w-10 h-14" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              className="w-10 h-14"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <path d="M12 2C9.24 2 7 4.24 7 7c0 2.21 1.41 4.09 3.38 4.75L10 22h4l-.38-10.25C15.59 11.09 17 9.21 17 7c0-2.76-2.24-5-5-5z" />
             </svg>
           </div>
         </div>
 
-        {/* =====================================================
-            TITLE
-        ===================================================== */}
-
+        {/* TITLE */}
         <h1 className="text-2xl font-extrabold tracking-wide mt-2">
           <span className="text-[#2d682c]">COOK</span>
           <span className="text-gray-700 mx-1.5">&</span>
@@ -216,25 +319,18 @@ export default function Login() {
           Welcome back!
         </p>
 
-        {/* =====================================================
-            DIVIDER
-        ===================================================== */}
-
+        {/* DIVIDER */}
         <div className="relative w-full flex items-center justify-center my-6">
           <div className="absolute w-full border-t border-green-700/60"></div>
-
           <div className="relative z-10 w-2.5 h-2.5 bg-green-700 rounded-full"></div>
         </div>
 
-        {/* =====================================================
-            LOGIN FORM
-        ===================================================== */}
-
+        {/* LOGIN FORM */}
         <form onSubmit={handleSubmit} className="w-full">
           {/* EMAIL */}
           <div className="mb-4">
             <label className="block text-xs font-semibold text-gray-600 mb-1.5 ml-1">
-              Email
+              Email or School ID
             </label>
 
             <div className="relative">
@@ -244,12 +340,12 @@ export default function Login() {
               />
 
               <input
-                type="email"
+                type="text"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Enter your email"
-                autoComplete="email"
+                placeholder="Enter your email or school ID"
+                autoComplete="username"
                 required
                 className="
                   w-full
@@ -328,9 +424,9 @@ export default function Login() {
             </div>
           </div>
 
-          {/* LOGIN BUTTON */}
-          {/* <button
+          <button
             type="submit"
+            disabled={isSubmitting}
             className="
               w-full
               flex
@@ -347,41 +443,16 @@ export default function Login() {
               transition-all
               duration-200
               active:scale-[0.98]
+              disabled:opacity-60
+              disabled:cursor-not-allowed
             "
           >
-            Login
-            <ArrowRight size={19} />
-          </button> */}
-
-          <Link
-            to={"/dashboard"}
-            className="
-              w-full
-              flex
-              items-center
-              justify-center
-              gap-2 mt-8
-              bg-[#2d682c]
-              hover:bg-[#245523]
-              text-white
-              font-semibold
-              py-3.5
-              rounded-xl
-              shadow-md
-              transition-all
-              duration-200
-              active:scale-[0.98]
-            "
-          >
-            Login
-            <ArrowRight size={19} />
-          </Link>
+            {isSubmitting ? "Logging in..." : "Login"}
+            {!isSubmitting && <ArrowRight size={19} />}
+          </button>
         </form>
 
-        {/* =====================================================
-            REGISTER LINK
-        ===================================================== */}
-
+        {/* REGISTER LINK */}
         <div className="flex items-center justify-center mt-6">
           <p className="text-xs text-gray-500">Don't have an account?</p>
 
@@ -400,10 +471,7 @@ export default function Login() {
           </Link>
         </div>
 
-        {/* =====================================================
-            FOOTER
-        ===================================================== */}
-
+        {/* FOOTER */}
         <p className="text-center text-[10px] text-gray-400 mt-6 mb-4">
           Learn. Cook. Succeed.
         </p>

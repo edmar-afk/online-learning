@@ -59,23 +59,23 @@ export default function Lessons() {
     <div className="min-h-screen bg-gray-100 flex justify-center">
       {/* Mobile Frame Container */}
       <div className="w-full max-w-md bg-gray-50 flex flex-col shadow-xl">
-        
         {/* Top Header */}
-        <header className="bg-emerald-800 text-white px-4 py-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => navigate(-1)}
-              className="focus:outline-none hover:opacity-80 transition-opacity"
-              aria-label="Go back"
-            >
-              <ArrowLeft className="w-6 h-6" />
-            </button>
 
-            <h1 className="text-lg font-medium tracking-wide">
-              Lesson Categories
-            </h1>
-          </div>
-        </header>
+        <div className="bg-emerald-800 text-white px-4 py-6 flex items-center justify-between shadow-md">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-1 rounded-full hover:bg-emerald-700 transition cursor-pointer focus:outline-none"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+
+          <h1 className="text-lg font-semibold tracking-wide">
+            Lesson Categories
+          </h1>
+
+          <div className="w-6" />
+        </div>
 
         {/* Categories List */}
         <main className="flex-1 px-4 py-5 space-y-4 overflow-y-auto mb-18">
@@ -97,9 +97,7 @@ export default function Lessons() {
                     {cat.title}
                   </h2>
 
-                  <p className="text-gray-400 text-sm">
-                    {cat.lessons}
-                  </p>
+                  <p className="text-gray-400 text-sm">{cat.lessons}</p>
                 </div>
               </div>
 

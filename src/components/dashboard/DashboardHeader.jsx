@@ -1,28 +1,79 @@
-import React from "react";
-import { FiSearch, FiBell } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { FiSearch, FiLogOut } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 export default function DashboardHeader() {
+  const [firstName, setFirstName] = useState("User");
+  const [greeting, setGreeting] = useState("Good Morning");
+
+  useEffect(() => {
+    try {
+      const storedUserInfo = localStorage.getItem("userInfo");
+
+      if (storedUserInfo) {
+        const userInfo = JSON.parse(storedUserInfo);
+
+        if (userInfo.first_name) {
+          setFirstName(userInfo.first_name.trim());
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load user information:", error);
+    }
+
+    const updateGreeting = () => {
+      const hour = Number(
+        new Intl.DateTimeFormat("en-PH", {
+          timeZone: "Asia/Manila",
+          hour: "numeric",
+          hour12: false,
+        }).format(new Date())
+      );
+
+      if (hour >= 5 && hour < 12) {
+        setGreeting("Good Morning");
+      } else if (hour >= 12 && hour < 18) {
+        setGreeting("Good Afternoon");
+      } else {
+        setGreeting("Good Evening");
+      }
+    };
+
+    updateGreeting();
+
+    const interval = setInterval(updateGreeting, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="bg-[#2e7d32] px-6 pt-12 pb-4 text-white relative">
-      {/* Header Greeting & Notification */}
+      {/* Header Greeting & Logout */}
       <div className="flex justify-between items-start mb-6">
         <div>
-          <p className="text-sm opacity-90 font-medium">Good Morning,</p>
+          <p className="text-sm opacity-90 font-medium">
+            {greeting},
+          </p>
 
           <h1 className="text-2xl font-bold flex items-center gap-2 mt-0.5">
-            Juan Dela Cruz!
+            {firstName}!
             <span className="text-xl">👋</span>
           </h1>
 
-          <p className="text-xs opacity-80 mt-1">Keep learning and cooking!</p>
+          <p className="text-xs opacity-80 mt-1">
+            Keep learning and cooking!
+          </p>
         </div>
 
-        {/* Notification */}
-        <button className="bg-white/15 p-2.5 rounded-full hover:bg-white/25 transition relative">
-          <FiBell className="text-white text-xl" />
-
-          <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-[#2e7d32]" />
-        </button>
+        {/* Logout */}
+        <Link
+          to="/logout"
+          aria-label="Logout"
+          title="Logout"
+          className="bg-white/15 p-2.5 rounded-full hover:bg-white/25 transition relative"
+        >
+          <FiLogOut className="text-white text-xl" />
+        </Link>
       </div>
 
       {/* Search Bar */}
