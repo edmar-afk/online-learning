@@ -47,7 +47,7 @@ export default function DashboardHeader() {
   }, []);
 
   return (
-    <div className="bg-[#2e7d32] px-6 pt-12 pb-4 text-white relative">
+    <div className="bg-green-900 px-6 pt-12 pb-4 text-white relative">
       {/* Header Greeting & Logout */}
       <div className="flex justify-between items-start mb-6">
         <div>
@@ -77,7 +77,7 @@ export default function DashboardHeader() {
       </div>
 
       {/* Search Bar */}
-      <div className="relative -mb-10 shadow-xl rounded-full">
+      {/* <div className="relative -mb-10 shadow-xl rounded-full">
         <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
           <FiSearch className="text-lg" />
         </span>
@@ -87,7 +87,7 @@ export default function DashboardHeader() {
           placeholder="Search lessons, recipes..."
           className="w-full pl-11 pr-4 py-3 bg-white text-gray-800 rounded-full text-sm focus:outline-none shadow-sm placeholder:text-gray-400"
         />
-      </div>
+      </div> */}
     </div>
   );
 }

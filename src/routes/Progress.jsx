@@ -227,9 +227,9 @@ export default function Progress() {
     switch (String(category || "").toLowerCase()) {
       case "easy":
         return {
-          icon: "bg-emerald-700",
-          text: "text-emerald-700",
-          bar: "bg-emerald-600",
+          icon: "bg-green-700",
+          text: "text-green-700",
+          bar: "bg-green-600",
         };
 
       case "medium":
@@ -289,11 +289,11 @@ export default function Progress() {
     <div className="min-h-screen bg-gray-50 flex justify-center">
       <div className="w-full max-w-md bg-white shadow-lg flex flex-col min-h-screen pb-24">
         {/* Header */}
-        <div className="bg-emerald-800 text-white px-4 py-6 flex items-center justify-between shadow-md">
+        <div className="bg-green-800 text-white px-4 py-6 flex items-center justify-between shadow-md">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="p-1 rounded-full hover:bg-emerald-700 transition"
+            className="p-1 rounded-full hover:bg-green-700 transition"
             aria-label="Go back"
           >
             <ArrowLeft className="w-6 h-6" />
@@ -307,7 +307,7 @@ export default function Progress() {
               fetchLessons();
               fetchScores();
             }}
-            className="p-1 rounded-full hover:bg-emerald-700 transition"
+            className="p-1 rounded-full hover:bg-green-700 transition"
             aria-label="Refresh progress"
           >
             <RefreshCw className="w-5 h-5" />
@@ -340,7 +340,7 @@ export default function Progress() {
                     r="68"
                     stroke="currentColor"
                     strokeWidth="16"
-                    className="text-emerald-700 transition-all duration-700"
+                    className="text-green-700 transition-all duration-700"
                     fill="transparent"
                     strokeDasharray={2 * Math.PI * 68}
                     strokeDashoffset={
@@ -351,7 +351,7 @@ export default function Progress() {
                 </svg>
 
                 <div className="absolute flex flex-col items-center">
-                  <span className="text-2xl font-black text-emerald-800">
+                  <span className="text-2xl font-black text-green-800">
                     {loadingLessons ? "..." : `${overallProgress}%`}
                   </span>
                   <span className="text-xs font-semibold text-gray-500">
@@ -362,7 +362,7 @@ export default function Progress() {
 
               <div className="flex flex-col gap-2.5 flex-1 min-w-0">
                 <div className="flex items-center gap-3 p-2.5 rounded-xl border border-gray-100 bg-gray-50">
-                  <div className="p-2 bg-emerald-100 text-emerald-800 rounded-lg">
+                  <div className="p-2 bg-green-100 text-green-800 rounded-lg">
                     <BookOpen className="w-5 h-5" />
                   </div>
 
@@ -425,7 +425,7 @@ export default function Progress() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
-                <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
+                <div className="w-9 h-9 rounded-xl bg-green-100 text-green-700 flex items-center justify-center mb-3">
                   <TrendingUp className="w-5 h-5" />
                 </div>
 
@@ -433,7 +433,7 @@ export default function Progress() {
                   Average Score
                 </p>
 
-                <p className="text-2xl font-black text-emerald-800 mt-1">
+                <p className="text-2xl font-black text-green-800 mt-1">
                   {loadingScores ? "..." : `${averageScore.toFixed(1)}%`}
                 </p>
 
@@ -478,7 +478,7 @@ export default function Progress() {
                 <button
                   type="button"
                   onClick={() => setShowAllLessons((current) => !current)}
-                  className="text-emerald-700 text-xs font-semibold hover:underline"
+                  className="text-green-700 text-xs font-semibold hover:underline"
                 >
                   {showAllLessons ? "Show Less" : "View All"}
                 </button>
@@ -488,7 +488,7 @@ export default function Progress() {
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm divide-y divide-gray-100">
               {loadingLessons ? (
                 <div className="p-6 text-center">
-                  <LoaderCircle className="w-7 h-7 text-emerald-700 animate-spin mx-auto mb-2" />
+                  <LoaderCircle className="w-7 h-7 text-green-700 animate-spin mx-auto mb-2" />
                   <p className="text-xs text-gray-500">
                     Loading saved lessons...
                   </p>
@@ -500,7 +500,7 @@ export default function Progress() {
                   <button
                     type="button"
                     onClick={fetchLessons}
-                    className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-emerald-700"
+                    className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-green-700"
                   >
                     <RefreshCw className="w-3.5 h-3.5" />
                     Try Again
@@ -521,7 +521,7 @@ export default function Progress() {
                   <button
                     type="button"
                     onClick={() => navigate("/lessons")}
-                    className="mt-3 px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-semibold hover:bg-emerald-800"
+                    className="mt-3 px-4 py-2 bg-green-700 text-white rounded-xl text-xs font-semibold hover:bg-green-800"
                   >
                     Browse Lessons
                   </button>
@@ -541,7 +541,7 @@ export default function Progress() {
                       onClick={() => navigate(`/lessons/${lesson.id}`)}
                       className="w-full text-left p-3.5 flex items-start gap-3 hover:bg-gray-50 transition"
                     >
-                      <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 bg-green-100 text-green-800 rounded-xl flex items-center justify-center flex-shrink-0">
                         <BookOpen className="w-6 h-6" />
                       </div>
 
@@ -551,7 +551,7 @@ export default function Progress() {
                         </h3>
 
                         {lesson.topic && (
-                          <p className="text-xs text-emerald-700 mt-1 break-words">
+                          <p className="text-xs text-green-700 mt-1 break-words">
                             {lesson.topic}
                           </p>
                         )}
@@ -579,7 +579,7 @@ export default function Progress() {
 
                           <span
                             className={`flex items-center gap-1 text-[10px] font-semibold ${
-                              isCompleted ? "text-emerald-700" : "text-gray-400"
+                              isCompleted ? "text-green-700" : "text-gray-400"
                             }`}
                           >
                             {isCompleted ? (
@@ -606,7 +606,7 @@ export default function Progress() {
                   <button
                     type="button"
                     onClick={() => setShowAllLessons(true)}
-                    className="w-full p-3 text-center text-xs font-semibold text-emerald-700 hover:bg-emerald-50"
+                    className="w-full p-3 text-center text-xs font-semibold text-green-700 hover:bg-green-50"
                   >
                     View all {lessons.length} lessons
                   </button>
@@ -623,7 +623,7 @@ export default function Progress() {
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-4">
               {loadingScores ? (
                 <div className="py-5 text-center">
-                  <LoaderCircle className="w-7 h-7 text-emerald-700 animate-spin mx-auto mb-2" />
+                  <LoaderCircle className="w-7 h-7 text-green-700 animate-spin mx-auto mb-2" />
                   <p className="text-xs text-gray-500">
                     Loading your latest quiz...
                   </p>
@@ -651,7 +651,7 @@ export default function Progress() {
                     </div>
 
                     <div className="text-right flex-shrink-0">
-                      <p className="text-xl font-black text-emerald-700">
+                      <p className="text-xl font-black text-green-700">
                         {Number(latestAttempt.percentage ?? 0).toFixed(0)}%
                       </p>
 
@@ -664,7 +664,7 @@ export default function Progress() {
 
                   <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mt-4">
                     <div
-                      className="h-full bg-emerald-600 rounded-full transition-all"
+                      className="h-full bg-green-600 rounded-full transition-all"
                       style={{
                         width: `${Math.min(
                           100,
@@ -679,7 +679,7 @@ export default function Progress() {
                     onClick={() =>
                       navigate(`/quizzes/${latestAttempt.quiz_id}`)
                     }
-                    className="w-full mt-4 flex items-center justify-center gap-2 bg-emerald-50 text-emerald-800 rounded-xl py-2.5 text-xs font-bold hover:bg-emerald-100 transition"
+                    className="w-full mt-4 flex items-center justify-center gap-2 bg-green-50 text-green-800 rounded-xl py-2.5 text-xs font-bold hover:bg-green-100 transition"
                   >
                     Review Quiz
                     <ChevronRight className="w-4 h-4" />
@@ -700,7 +700,7 @@ export default function Progress() {
                   <button
                     type="button"
                     onClick={() => navigate("/quizzes")}
-                    className="mt-3 px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-semibold hover:bg-emerald-800"
+                    className="mt-3 px-4 py-2 bg-green-700 text-white rounded-xl text-xs font-semibold hover:bg-green-800"
                   >
                     Browse Quizzes
                   </button>
@@ -720,7 +720,7 @@ export default function Progress() {
                 <button
                   type="button"
                   onClick={() => setShowAllScores((current) => !current)}
-                  className="text-emerald-700 text-xs font-semibold hover:underline"
+                  className="text-green-700 text-xs font-semibold hover:underline"
                 >
                   {showAllScores ? "Show Less" : "View All"}
                 </button>
@@ -730,7 +730,7 @@ export default function Progress() {
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm divide-y divide-gray-100">
               {loadingScores ? (
                 <div className="p-6 text-center">
-                  <LoaderCircle className="w-6 h-6 text-emerald-700 animate-spin mx-auto mb-2" />
+                  <LoaderCircle className="w-6 h-6 text-green-700 animate-spin mx-auto mb-2" />
                   <p className="text-xs text-gray-500">Loading activity...</p>
                 </div>
               ) : scoreError ? (
@@ -740,7 +740,7 @@ export default function Progress() {
                   <button
                     type="button"
                     onClick={fetchScores}
-                    className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-emerald-700"
+                    className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-green-700"
                   >
                     <RefreshCw className="w-3.5 h-3.5" />
                     Try Again
@@ -783,11 +783,11 @@ export default function Progress() {
                     </div>
 
                     <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                      <span className="text-sm font-bold text-emerald-700">
+                      <span className="text-sm font-bold text-green-700">
                         {Number(attempt.percentage ?? 0).toFixed(0)}%
                       </span>
 
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <CheckCircle2 className="w-4 h-4 text-green-600" />
                     </div>
                   </button>
                 ))
@@ -804,7 +804,7 @@ export default function Progress() {
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-4 space-y-5">
               {loadingScores ? (
                 <div className="py-4 text-center">
-                  <LoaderCircle className="w-6 h-6 text-emerald-700 animate-spin mx-auto mb-2" />
+                  <LoaderCircle className="w-6 h-6 text-green-700 animate-spin mx-auto mb-2" />
                   <p className="text-xs text-gray-500">
                     Calculating category scores...
                   </p>

@@ -50,7 +50,7 @@ export default function ContinueLearning() {
 
   return (
     <section>
-      <div className="flex justify-between items-center mb-3 mt-12">
+      <div className="flex justify-between items-center mb-3">
         <h2 className="font-bold text-gray-900 text-base">Continue Learning</h2>
 
         <button
@@ -139,7 +139,7 @@ export default function ContinueLearning() {
           <button
             type="button"
             onClick={() => navigate("/lessons")}
-            className="mt-4 bg-[#2e7d32] text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-green-700 transition"
+            className="mt-4 bg-green-900 text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-green-700 transition"
           >
             Browse Lessons
           </button>

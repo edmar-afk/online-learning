@@ -27,7 +27,7 @@ export default function Dashboard() {
           <QuickAccess />
 
           {/* Encouragement */}
-          <EncouragementCard />
+          {/* <EncouragementCard /> */}
 
         </main>
 

@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  ChefHat,
-  Soup,
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  ArrowRight,
-} from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import api from "../assets/api";
@@ -45,7 +37,7 @@ export default function Login() {
         icon: "warning",
         title: "Missing Information",
         text: "Please enter your email or school ID and password.",
-        confirmButtonColor: "#2d682c",
+        confirmButtonColor: "#1E6B38",
       });
       return;
     }
@@ -84,7 +76,7 @@ export default function Login() {
         icon: "success",
         title: "Login Successful!",
         text: `Welcome back, ${user.first_name || user.username}!`,
-        confirmButtonColor: "#2d682c",
+        confirmButtonColor: "#1E6B38",
         timer: 1500,
         timerProgressBar: true,
         showConfirmButton: false,
@@ -135,7 +127,7 @@ export default function Login() {
         icon: "error",
         title: "Login Failed",
         text: errorMessage,
-        confirmButtonColor: "#2d682c",
+        confirmButtonColor: "#1E6B38",
       });
     } finally {
       setIsSubmitting(false);
@@ -143,200 +135,73 @@ export default function Login() {
   };
 
   return (
-    <div className="relative flex flex-col items-center min-h-screen bg-white px-6 py-8 overflow-hidden font-sans select-none">
-      {/* BACKGROUND DECORATIVE OUTLINE ICONS */}
-      <div className="absolute inset-0 pointer-events-none opacity-10">
-        {/* Top Left - Tomato */}
-        <div className="absolute top-8 left-8 text-green-700">
-          <svg
-            className="w-16 h-16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314l1.414 1.414m9.9 9.9l1.414 1.414M12 7a5 5 0 100 10 5 5 0 000-10z"
-            />
-          </svg>
-        </div>
-
-        {/* Top Center - Leaf */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 text-green-700">
-          <svg
-            className="w-16 h-16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 21c-4.97 0-9-4.03-9-9 0-4.97 4.03-9 9-9 4.97 0 9 4.03 9 9 0 4.97-4.03 9-9 9zm0 0v-9m0 0H7m5 0h5"
-            />
-          </svg>
-        </div>
-
-        {/* Top Right - Bell Pepper */}
-        <div className="absolute top-8 right-8 text-green-700">
-          <svg
-            className="w-16 h-16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 3v3m0 0a3 3 0 00-3 3v1a6 6 0 106 0V9a3 3 0 00-3-3z"
-            />
-          </svg>
-        </div>
-
-        {/* Middle Left - Carrot */}
-        <div className="absolute top-1/3 left-6 text-green-700">
-          <svg
-            className="w-16 h-16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.5 13.5l7-7m0 0L14 3l3 3 3 3-3.5 3.5m-6.5-6.5l3.5 3.5"
-            />
-          </svg>
-        </div>
-
-        {/* Bottom Left Leaf */}
-        <div className="absolute bottom-32 left-8 text-green-700">
-          <svg
-            className="w-16 h-16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 3l14 9-14 9V3z"
-            />
-          </svg>
-        </div>
-
-        {/* Bottom Right Apple */}
-        <div className="absolute bottom-32 right-8 text-green-700">
-          <svg
-            className="w-16 h-16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 3v3m3-3a3 3 0 013 3v1a6 6 0 11-12 0V6a3 3 0 013-3z"
-            />
-          </svg>
-        </div>
-
-        {/* Bottom Left Chef Hat */}
-        <div className="absolute bottom-6 left-6 text-green-700">
-          <ChefHat className="w-16 h-16" />
-        </div>
-
-        {/* Bottom Right Bowl */}
-        <div className="absolute bottom-6 right-6 text-green-700">
-          <Soup className="w-16 h-16" />
-        </div>
+    <div className="relative flex flex-col items-center justify-between min-h-screen bg-white px-6 py-6 overflow-hidden font-sans select-none">
+      {/* Top Decorative Green Waves */}
+      <div className="absolute top-0 left-0 right-0 pointer-events-none">
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          className="w-full h-24 text-[#1E6B38]"
+        >
+          <path
+            fill="currentColor"
+            d="M0,0 L500,0 L500,60 C400,120 300,40 180,80 C80,110 0,60 0,60 Z"
+          />
+        </svg>
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          className="w-full h-20 text-[#1E6B38] opacity-60 -mt-16"
+        >
+          <path
+            fill="currentColor"
+            d="M0,0 L500,0 L500,40 C350,90 250,20 120,70 C50,90 0,40 0,40 Z"
+          />
+        </svg>
       </div>
 
-      {/* MAIN CONTENT */}
-      <div className="relative z-10 flex flex-col items-center w-full max-w-xs">
+      {/* MAIN CONTENT CONTAINER */}
+      <div className="relative z-10 flex flex-col items-center w-full max-w-xs mt-10">
         {/* LOGO */}
-        <div className="relative flex items-center justify-center mt-8 mb-4">
-          {/* Fork */}
-          <div className="text-green-700 mr-[-10px] z-20">
-            <svg
-              className="w-10 h-14"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M7 2v6c0 1.1.9 2 2 2h0c1.1 0 2-.9 2-2V2h2v6c0 2.21-1.79 4-4 4s-4-1.79-4-4V2h2zm2 13h2v7H9v-7z" />
-            </svg>
-          </div>
+        <div className="my-2 flex items-center justify-center">
+          <svg
+            className="w-32 h-32 text-[#1E6B38]"
+            viewBox="0 0 200 200"
+            fill="currentColor"
+          >
+            {/* Spoon */}
+            <path d="M 45 60 C 35 60 25 75 25 95 C 25 110 35 120 45 120 L 45 150 C 45 155 49 155 49 150 L 49 120 C 59 120 65 110 65 95 C 65 75 55 60 45 60 Z M 45 112 C 37 112 33 103 33 95 C 33 80 40 68 45 68 C 50 68 57 80 57 95 C 57 103 53 112 45 112 Z" />
 
-          {/* Central Logo */}
-          <div className="relative flex flex-col items-center">
-            <div className="relative bg-[#2d682c] w-28 h-28 rounded-full flex flex-col items-center justify-center shadow-md">
-              {/* Chef Hat */}
-              <div className="absolute -top-8 text-[#2d682c]">
-                <ChefHat className="w-20 h-20 stroke-[2.5]" />
-              </div>
+            {/* Chef Hat + Open Book */}
+            <path d="M 100 30 C 90 30 83 37 83 46 C 78 46 73 51 73 57 C 73 63 77 67 82 68 L 118 68 C 123 67 127 63 127 57 C 127 51 122 46 117 46 C 117 37 110 30 100 30 Z" />
+            <path d="M 100 80 L 70 68 L 70 115 L 100 128 L 130 115 L 130 68 Z M 96 120 L 76 109 L 76 76 L 96 85 Z M 124 109 L 104 120 L 104 85 L 124 76 Z" />
 
-              {/* Steam */}
-              <div className="flex space-x-1.5 mt-4 mb-1 text-white">
-                <span className="w-0.5 h-3 bg-white rounded-full animate-pulse"></span>
-                <span className="w-0.5 h-4 bg-white rounded-full animate-pulse delay-75"></span>
-                <span className="w-0.5 h-3 bg-white rounded-full animate-pulse delay-150"></span>
-              </div>
-
-              {/* Orange Bowl */}
-              <div className="w-16 h-7 bg-[#f47b20] rounded-b-full border-2 border-white flex items-center justify-center shadow-inner">
-                <div className="w-10 h-1 bg-[#d96515] rounded-full mt-[-4px]"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Spoon */}
-          <div className="text-green-700 ml-[-10px] z-20">
-            <svg
-              className="w-10 h-14"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M12 2C9.24 2 7 4.24 7 7c0 2.21 1.41 4.09 3.38 4.75L10 22h4l-.38-10.25C15.59 11.09 17 9.21 17 7c0-2.76-2.24-5-5-5z" />
-            </svg>
-          </div>
+            {/* Fork */}
+            <path d="M 155 60 L 151 60 L 151 90 C 151 96 147 100 143 100 L 143 150 C 143 155 147 155 147 150 L 147 106 C 153 106 159 101 159 95 L 159 60 Z M 146 82 L 146 64 L 149 64 L 149 82 Z M 153 82 L 153 64 L 156 64 L 156 82 Z" />
+          </svg>
         </div>
 
-        {/* TITLE */}
-        <h1 className="text-2xl font-extrabold tracking-wide mt-2">
-          <span className="text-[#2d682c]">COOK</span>
-          <span className="text-gray-700 mx-1.5">&</span>
-          <span className="text-[#f47b20]">LEARN</span>
+        {/* TITLE & SUBTITLE */}
+        <h1 className="text-xl font-extrabold text-[#1E6B38] tracking-tight text-center leading-snug">
+          Mobile-Based Learning System
         </h1>
-
-        <p className="text-gray-800 font-medium text-base mt-1">
-          Welcome back!
+        <p className="text-[#1E6B38] font-medium text-xs text-center mt-1">
+          with Multimedia Content and Automated Evaluation
         </p>
 
-        {/* DIVIDER */}
-        <div className="relative w-full flex items-center justify-center my-6">
-          <div className="absolute w-full border-t border-green-700/60"></div>
-          <div className="relative z-10 w-2.5 h-2.5 bg-green-700 rounded-full"></div>
+        {/* BADGE BANNER */}
+        <div className="mt-3 w-full bg-[#D8EFE0] text-[#1E6B38] font-semibold py-2 px-3 rounded-full text-xs text-center shadow-sm">
+          <span className="font-normal">(Quantity Cookery)</span>
         </div>
 
         {/* LOGIN FORM */}
-        <form onSubmit={handleSubmit} className="w-full">
+        <form onSubmit={handleSubmit} className="w-full mt-4">
           {/* EMAIL */}
-          <div className="mb-4">
-            <label className="block text-xs font-semibold text-gray-600 mb-1.5 ml-1">
-              Email or School ID
-            </label>
-
+          <div className="mb-3">
             <div className="relative">
               <Mail
                 size={18}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
               />
 
               <input
@@ -344,39 +209,36 @@ export default function Login() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Enter your email or school ID"
+                placeholder="Username"
                 autoComplete="username"
                 required
                 className="
                   w-full
-                  h-12
-                  pl-11 pr-4
-                  bg-gray-50
+                  h-11
+                  pl-10 pr-4
+                  bg-white
                   border border-gray-200
                   rounded-xl
                   text-sm
                   text-gray-800
                   placeholder-gray-400
                   outline-none
-                  focus:border-[#2d682c]
+                  focus:border-[#1E6B38]
                   focus:ring-2
-                  focus:ring-[#2d682c]/10
+                  focus:ring-[#1E6B38]/10
                   transition
+                  shadow-sm
                 "
               />
             </div>
           </div>
 
           {/* PASSWORD */}
-          <div className="mb-2">
-            <label className="block text-xs font-semibold text-gray-600 mb-1.5 ml-1">
-              Password
-            </label>
-
+          <div className="mb-4">
             <div className="relative">
               <Lock
                 size={18}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
               />
 
               <input
@@ -384,24 +246,25 @@ export default function Login() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Enter your password"
+                placeholder="Password"
                 autoComplete="current-password"
                 required
                 className="
                   w-full
-                  h-12
-                  pl-11 pr-11
-                  bg-gray-50
+                  h-11
+                  pl-10 pr-10
+                  bg-white
                   border border-gray-200
                   rounded-xl
                   text-sm
                   text-gray-800
                   placeholder-gray-400
                   outline-none
-                  focus:border-[#2d682c]
+                  focus:border-[#1E6B38]
                   focus:ring-2
-                  focus:ring-[#2d682c]/10
+                  focus:ring-[#1E6B38]/10
                   transition
+                  shadow-sm
                 "
               />
 
@@ -414,7 +277,7 @@ export default function Login() {
                   top-1/2
                   -translate-y-1/2
                   text-gray-400
-                  hover:text-[#2d682c]
+                  hover:text-[#1E6B38]
                   transition
                 "
                 aria-label={showPassword ? "Hide password" : "Show password"}
@@ -432,12 +295,12 @@ export default function Login() {
               flex
               items-center
               justify-center
-              gap-2 mt-8
-              bg-[#2d682c]
-              hover:bg-[#245523]
+              gap-2
+              bg-[#1E6B38]
+              hover:bg-[#16522a]
               text-white
               font-semibold
-              py-3.5
+              py-3
               rounded-xl
               shadow-md
               transition-all
@@ -448,33 +311,52 @@ export default function Login() {
             "
           >
             {isSubmitting ? "Logging in..." : "Login"}
-            {!isSubmitting && <ArrowRight size={19} />}
+            {!isSubmitting && <ArrowRight size={18} />}
           </button>
         </form>
 
         {/* REGISTER LINK */}
-        <div className="flex items-center justify-center mt-6">
+        <div className="flex items-center justify-center mt-4">
           <p className="text-xs text-gray-500">Don't have an account?</p>
 
           <Link
             to={"/register"}
             className="
               ml-1
-              text-sm
+              text-xs
               font-semibold
-              text-[#2d682c]
-              hover:text-[#f47b20]
+              text-[#1E6B38]
+              hover:underline
               transition
             "
           >
             Register
           </Link>
         </div>
+      </div>
 
-        {/* FOOTER */}
-        <p className="text-center text-[10px] text-gray-400 mt-6 mb-4">
-          Learn. Cook. Succeed.
-        </p>
+      {/* Bottom Decorative Green Waves */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          className="w-full h-20 text-[#1E6B38] opacity-60 -mb-14"
+        >
+          <path
+            fill="currentColor"
+            d="M0,150 L500,150 L500,110 C380,60 280,130 150,80 C50,50 0,110 0,110 Z"
+          />
+        </svg>
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          className="w-full h-24 text-[#1E6B38]"
+        >
+          <path
+            fill="currentColor"
+            d="M0,150 L500,150 L500,90 C400,30 300,110 180,70 C80,40 0,90 0,90 Z"
+          />
+        </svg>
       </div>
     </div>
   );

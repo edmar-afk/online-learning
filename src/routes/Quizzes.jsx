@@ -149,7 +149,7 @@ function Quizzes() {
     <div className="min-h-screen bg-gray-100 flex justify-center">
       <div className="w-full max-w-md bg-gray-50 flex flex-col shadow-xl min-h-screen">
         {/* Header */}
-        <header className="bg-emerald-800 text-white px-4 pt-6 pb-5">
+        <header className="bg-green-900 text-white px-4 pt-6 pb-5">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <button
@@ -199,7 +199,7 @@ function Quizzes() {
           </div>
 
           {/* Summary */}
-          <div className="bg-emerald-700 rounded-2xl p-4 mb-5 text-white shadow-sm">
+          <div className="bg-green-900 rounded-2xl p-4 mb-5 text-white shadow-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
@@ -254,7 +254,7 @@ function Quizzes() {
               <button
                 type="button"
                 onClick={fetchQuizzes}
-                className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-700 text-white text-sm font-semibold hover:bg-emerald-800"
+                className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-900 text-white text-sm font-semibold hover:bg-emerald-800"
               >
                 <RefreshCw className="w-4 h-4" />
                 Try Again
@@ -346,7 +346,7 @@ function Quizzes() {
                         <div className="flex items-center justify-between gap-3">
                           <div className="flex items-center gap-2.5 min-w-0">
                             <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
-                              <Trophy className="w-4 h-4 text-emerald-700" />
+                              <Trophy className="w-4 h-4 text-green-900" />
                             </div>
 
                             <div className="min-w-0">
@@ -361,7 +361,7 @@ function Quizzes() {
                           </div>
 
                           <div className="text-right shrink-0">
-                            <p className="text-lg font-bold text-emerald-700 leading-5">
+                            <p className="text-lg font-bold text-green-900 leading-5">
                               {percentage.toFixed(0)}%
                             </p>
                             <p className="text-[10px] text-gray-400 mt-1">
@@ -386,7 +386,7 @@ function Quizzes() {
                             </div>
                           </div>
 
-                          <span className="text-xs font-semibold text-emerald-700">
+                          <span className="text-xs font-semibold text-green-900">
                             Start Quiz
                           </span>
                         </div>
@@ -417,7 +417,7 @@ function Quizzes() {
                     <button
                       type="button"
                       onClick={() => setShowCreateModal(true)}
-                      className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-700 text-white text-sm font-semibold hover:bg-emerald-800"
+                      className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-900 text-white text-sm font-semibold hover:bg-emerald-800"
                     >
                       <Plus className="w-4 h-4" />
                       Create Quiz

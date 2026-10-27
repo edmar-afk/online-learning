@@ -49,7 +49,7 @@ export default function BottomNav() {
             className={({ isActive }) =>
               `flex flex-col items-center transition ${
                 isActive
-                  ? "text-[#2e7d32]"
+                  ? "text-green-900"
                   : "text-gray-400 hover:text-gray-600"
               }`
             }

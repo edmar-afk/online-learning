@@ -128,12 +128,12 @@ export default function Lessons() {
   return (
     <div className="flex min-h-screen justify-center bg-gray-100">
       <div className="flex min-h-screen w-full max-w-md flex-col bg-gray-50 shadow-xl">
-        <header className="sticky top-0 z-20 bg-emerald-800 px-4 py-5 text-white shadow-md">
+        <header className="sticky top-0 z-20 bg-green-900 px-4 py-5 text-white shadow-md">
           <div className="flex items-center justify-between gap-3">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="rounded-full p-1 transition hover:bg-emerald-700"
+              className="rounded-full p-1 transition hover:bg-green-700"
               aria-label="Go back"
             >
               <ArrowLeft className="h-6 w-6" />
@@ -143,7 +143,7 @@ export default function Lessons() {
               <h1 className="text-lg font-semibold tracking-wide">
                 Lessons
               </h1>
-              <p className="mt-0.5 text-xs text-emerald-100">
+              <p className="mt-0.5 text-xs text-green-100">
                 {lessons.length}{" "}
                 {lessons.length === 1 ? "lesson" : "lessons"} available
               </p>
@@ -153,7 +153,7 @@ export default function Lessons() {
               <button
                 type="button"
                 onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-2.5 text-sm font-semibold text-emerald-900 shadow-sm transition hover:bg-emerald-50"
+                className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-2.5 text-sm font-semibold text-green-900 shadow-sm transition hover:bg-green-50"
               >
                 <Plus className="h-4 w-4" />
                 Add
@@ -171,13 +171,13 @@ export default function Lessons() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search lessons or topics..."
-              className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm text-gray-700 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+              className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm text-gray-700 outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100"
             />
           </div>
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-              <LoaderCircle className="mb-3 h-8 w-8 animate-spin text-emerald-700" />
+              <LoaderCircle className="mb-3 h-8 w-8 animate-spin text-green-700" />
               <p className="text-sm">Loading lessons...</p>
             </div>
           ) : error ? (
@@ -187,7 +187,7 @@ export default function Lessons() {
               <button
                 type="button"
                 onClick={fetchLessons}
-                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-900"
+                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-green-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-green-900"
               >
                 <RefreshCw className="h-4 w-4" />
                 Try Again
@@ -195,8 +195,8 @@ export default function Lessons() {
             </div>
           ) : filteredLessons.length === 0 ? (
             <div className="rounded-2xl border border-gray-100 bg-white px-5 py-12 text-center shadow-sm">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50">
-                <BookOpen className="h-8 w-8 text-emerald-700" />
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-50">
+                <BookOpen className="h-8 w-8 text-green-700" />
               </div>
 
               <h2 className="font-semibold text-gray-900">
@@ -219,7 +219,7 @@ export default function Lessons() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(true)}
-                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-emerald-800 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900"
+                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-green-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-green-900"
                 >
                   <Plus className="h-4 w-4" />
                   Create First Lesson
@@ -249,8 +249,8 @@ export default function Lessons() {
                         }}
                       />
                     ) : (
-                      <div className="flex h-36 items-center justify-center bg-gradient-to-br from-emerald-50 to-emerald-100">
-                        <ImageIcon className="h-12 w-12 text-emerald-300" />
+                      <div className="flex h-36 items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
+                        <ImageIcon className="h-12 w-12 text-green-300" />
                       </div>
                     )}
 
@@ -262,7 +262,7 @@ export default function Lessons() {
                           </h2>
 
                           {lesson.topic && (
-                            <span className="mt-2 inline-block rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800">
+                            <span className="mt-2 inline-block rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-900">
                               {lesson.topic}
                             </span>
                           )}
@@ -279,14 +279,14 @@ export default function Lessons() {
 
                       <div className="flex items-center gap-4 border-t border-gray-100 pt-3 text-xs text-gray-500">
                         <span className="inline-flex items-center gap-1.5">
-                          <Video className="h-4 w-4 text-emerald-700" />
+                          <Video className="h-4 w-4 text-green-700" />
                           {videoCount}{" "}
                           {videoCount === 1 ? "video" : "videos"}
                         </span>
 
                         {lesson.image && (
                           <span className="inline-flex items-center gap-1.5">
-                            <ImageIcon className="h-4 w-4 text-emerald-700" />
+                            <ImageIcon className="h-4 w-4 text-green-700" />
                             Image included
                           </span>
                         )}

@@ -58,14 +58,14 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-emerald-800 flex justify-center items-center p-0 sm:p-4">
+    <div className="min-h-screen bg-green-800 flex justify-center items-center p-0 sm:p-4">
       {/* Mobile container wrapper */}
       <div className="w-full max-w-md bg-white min-h-screen sm:min-h-[auto] sm:rounded-3xl shadow-xl overflow-hidden flex flex-col pb-24">
         {/* Top Green Header Bar */}
-        <div className="bg-emerald-800 text-white px-4 py-6 flex items-center justify-between shadow-md">
+        <div className="bg-green-800 text-white px-4 py-6 flex items-center justify-between shadow-md">
           <button
             onClick={() => navigate(-1)}
-            className="p-1 rounded-full hover:bg-emerald-700 transition cursor-pointer focus:outline-none"
+            className="p-1 rounded-full hover:bg-green-700 transition cursor-pointer focus:outline-none"
             aria-label="Go back"
           >
             <ArrowLeft className="w-6 h-6" />
@@ -81,7 +81,7 @@ export default function Profile() {
           <div>
             {/* Avatar Section */}
             <div className="flex flex-col items-center">
-              <div className="w-28 h-28 rounded-full bg-emerald-200 overflow-hidden border-4 border-white shadow-sm flex items-center justify-center">
+              <div className="w-28 h-28 rounded-full bg-green-200 overflow-hidden border-4 border-white shadow-sm flex items-center justify-center">
                 <img
                   src={
                     isTeacher
@@ -102,7 +102,7 @@ export default function Profile() {
               </p>
 
               {/* Role Badge */}
-              <span className="mt-2.5 px-4 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-100 capitalize">
+              <span className="mt-2.5 px-4 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-100 capitalize">
                 {role}
               </span>
             </div>
@@ -112,7 +112,7 @@ export default function Profile() {
               {/* School ID / Username */}
               <div className="flex items-center justify-between gap-3 px-4 py-3.5">
                 <div className="flex items-center space-x-3 min-w-0">
-                  <div className="w-9 h-9 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-700">
+                  <div className="w-9 h-9 shrink-0 rounded-full bg-green-50 flex items-center justify-center text-green-700">
                     <UserRound className="w-4 h-4" />
                   </div>
                   <span className="text-sm font-medium text-gray-700">
@@ -128,7 +128,7 @@ export default function Profile() {
               {/* Role */}
               <div className="flex items-center justify-between gap-3 px-4 py-3.5">
                 <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-700">
+                  <div className="w-9 h-9 shrink-0 rounded-full bg-green-50 flex items-center justify-center text-green-700">
                     <ShieldCheck className="w-4 h-4" />
                   </div>
                   <span className="text-sm font-medium text-gray-700">
@@ -145,7 +145,7 @@ export default function Profile() {
               {!isTeacher && (
                 <div className="flex items-center justify-between gap-3 px-4 py-3.5">
                   <div className="flex items-center space-x-3">
-                    <div className="w-9 h-9 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-700">
+                    <div className="w-9 h-9 shrink-0 rounded-full bg-green-50 flex items-center justify-center text-green-700">
                       <GraduationCap className="w-5 h-5" />
                     </div>
                     <span className="text-sm font-medium text-gray-700">
@@ -163,7 +163,7 @@ export default function Profile() {
               {!isTeacher && (
                 <div className="flex items-center justify-between gap-3 px-4 py-3.5">
                   <div className="flex items-center space-x-3">
-                    <div className="w-9 h-9 shrink-0 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-700">
+                    <div className="w-9 h-9 shrink-0 rounded-full bg-green-50 flex items-center justify-center text-green-700">
                       <Calendar className="w-4 h-4" />
                     </div>
                     <span className="text-sm font-medium text-gray-700">

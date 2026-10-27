@@ -244,7 +244,7 @@ export default function Presentation() {
   return (
     <div className="min-h-screen bg-gray-100 pb-24">
       <div className="mx-auto min-h-screen w-full max-w-5xl bg-gray-50 shadow-sm">
-        <header className="bg-emerald-800 px-5 pb-8 pt-8 text-white sm:px-8">
+        <header className="bg-green-800 px-5 pb-8 pt-8 text-white sm:px-8">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
@@ -252,7 +252,7 @@ export default function Presentation() {
               </div>
 
               <h1 className="text-2xl font-bold">Presentations</h1>
-              <p className="mt-2 max-w-md text-sm text-emerald-100">
+              <p className="mt-2 max-w-md text-sm text-green-100">
                 Access lesson slides and PowerPoint learning materials.
               </p>
             </div>
@@ -265,7 +265,7 @@ export default function Presentation() {
                   setSuccess("");
                   setShowUpload(true);
                 }}
-                className="flex shrink-0 items-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-bold text-emerald-800 shadow-sm hover:bg-emerald-50"
+                className="flex shrink-0 items-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-bold text-green-800 shadow-sm hover:bg-green-50"
               >
                 <Upload className="h-4 w-4" />
                 <span className="hidden sm:inline">Upload</span>
@@ -275,13 +275,13 @@ export default function Presentation() {
           </div>
 
           <div className="mt-6 flex items-center gap-3 rounded-2xl bg-white/10 px-4 py-3">
-            <BookOpen className="h-5 w-5 shrink-0 text-emerald-100" />
+            <BookOpen className="h-5 w-5 shrink-0 text-green-100" />
             <div>
               <p className="text-sm font-semibold">
                 {presentations.length}{" "}
                 {presentations.length === 1 ? "presentation" : "presentations"}
               </p>
-              <p className="text-xs text-emerald-100">
+              <p className="text-xs text-green-100">
                 {isTeacher
                   ? "Manage and share your lesson slides"
                   : "Browse available learning materials"}
@@ -302,7 +302,7 @@ export default function Presentation() {
           )}
 
           {success && (
-            <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+            <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
               <span>{success}</span>
               <button type="button" onClick={() => setSuccess("")}>
                 <X className="h-4 w-4" />
@@ -327,21 +327,21 @@ export default function Presentation() {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search presentations..."
-                className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+                className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
               />
             </div>
           </div>
 
           {loading ? (
             <div className="rounded-2xl border border-gray-100 bg-white p-12 text-center">
-              <LoaderCircle className="mx-auto h-8 w-8 animate-spin text-emerald-700" />
+              <LoaderCircle className="mx-auto h-8 w-8 animate-spin text-green-700" />
               <p className="mt-3 text-sm text-gray-500">
                 Loading presentations...
               </p>
             </div>
           ) : filteredPresentations.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-14 text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-green-50 text-green-700">
                 <FileUp className="h-8 w-8" />
               </div>
 
@@ -361,7 +361,7 @@ export default function Presentation() {
                 <button
                   type="button"
                   onClick={() => setShowUpload(true)}
-                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white hover:bg-emerald-800"
+                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-green-700 px-4 py-3 text-sm font-bold text-white hover:bg-green-800"
                 >
                   <Plus className="h-4 w-4" />
                   Upload Presentation
@@ -380,7 +380,7 @@ export default function Presentation() {
                 return (
                   <article
                     key={presentation.id}
-                    className="group rounded-2xl border border-gray-200 bg-white p-4 transition hover:border-emerald-200 hover:shadow-md sm:p-5"
+                    className="group rounded-2xl border border-gray-200 bg-white p-4 transition hover:border-green-200 hover:shadow-md sm:p-5"
                   >
                     <div className="flex items-start gap-4">
                       <div
@@ -420,7 +420,7 @@ export default function Presentation() {
                       <button
                         type="button"
                         onClick={() => openPresentation(presentation)}
-                        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-3 py-3 text-sm font-bold text-white hover:bg-emerald-800"
+                        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-green-700 px-3 py-3 text-sm font-bold text-white hover:bg-green-800"
                       >
                         <ExternalLink className="h-4 w-4" />
                         Open
@@ -456,7 +456,7 @@ export default function Presentation() {
             <button
               type="button"
               onClick={fetchPresentations}
-              className="mx-auto mt-6 flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-white hover:text-emerald-700"
+              className="mx-auto mt-6 flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-white hover:text-green-700"
             >
               <RefreshCw className="h-4 w-4" />
               Refresh presentations
@@ -504,7 +504,7 @@ export default function Presentation() {
                   onChange={(event) => setTitle(event.target.value)}
                   placeholder="e.g. Introduction to Cooking"
                   required
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
                 />
               </div>
 
@@ -524,9 +524,9 @@ export default function Presentation() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="flex w-full flex-col items-center rounded-xl border-2 border-dashed border-gray-300 px-4 py-7 text-center transition hover:border-emerald-500 hover:bg-emerald-50/50"
+                  className="flex w-full flex-col items-center rounded-xl border-2 border-dashed border-gray-300 px-4 py-7 text-center transition hover:border-green-500 hover:bg-green-50/50"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-50 text-green-700">
                     <Upload className="h-6 w-6" />
                   </div>
 
@@ -564,7 +564,7 @@ export default function Presentation() {
                 <button
                   type="submit"
                   disabled={uploading || !selectedFile || !title.trim()}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-green-700 px-4 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {uploading ? (
                     <>

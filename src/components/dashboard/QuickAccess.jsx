@@ -51,7 +51,7 @@ export default function QuickAccess() {
           icon={<FiBookOpen className="text-xl" />}
           label="Lessons"
           link="/lessons"
-          color="bg-amber-500"
+          color="bg-green-900"
         />
 
         {/* <QuickAccessItem
@@ -72,21 +72,21 @@ export default function QuickAccess() {
           icon={<FiEdit3 className="text-xl" />}
           label="Quizzes"
           link="/quizzes"
-          color="bg-amber-500"
+          color="bg-green-900"
         />
 
         <QuickAccessItem
           icon={<FiMonitor className="text-xl" />}
           label="Presentations"
           link="/presentations"
-          color="bg-red-500"
+          color="bg-green-900"
         />
 
         <QuickAccessItem
           icon={<FiTrendingUp className="text-xl" />}
           label="My Progress"
           link="/progress"
-          color="bg-purple-500"
+          color="bg-green-900"
         />
 {/* 
         <QuickAccessItem

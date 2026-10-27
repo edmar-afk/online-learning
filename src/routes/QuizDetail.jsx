@@ -278,7 +278,7 @@ export default function QuizDetail() {
     <div className="min-h-screen bg-gray-100 flex justify-center">
       <div className="w-full max-w-md h-screen bg-gray-50 flex flex-col shadow-xl overflow-hidden">
         {/* Header */}
-        <header className="bg-emerald-800 text-white px-4 pt-6 pb-5">
+        <header className="bg-green-800 text-white px-4 pt-6 pb-5">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <button
@@ -295,7 +295,7 @@ export default function QuizDetail() {
                   {submitted ? "Quiz Results" : "Attempt Quiz"}
                 </h1>
 
-                <p className="text-xs text-emerald-100 mt-0.5">
+                <p className="text-xs text-green-100 mt-0.5">
                   {submitted
                     ? "View your score and review correct answers"
                     : "Select the best answer for each question"}
@@ -308,7 +308,7 @@ export default function QuizDetail() {
                 type="button"
                 onClick={() => setShowAddModal(true)}
                 disabled={!quiz || submitting || checkingAttempt}
-                className="flex items-center gap-1.5 bg-white text-emerald-800 px-3 py-2 rounded-xl text-xs font-bold hover:bg-emerald-50 disabled:opacity-50"
+                className="flex items-center gap-1.5 bg-white text-green-800 px-3 py-2 rounded-xl text-xs font-bold hover:bg-green-50 disabled:opacity-50"
               >
                 <Plus className="w-4 h-4" />
                 Add Question
@@ -321,7 +321,7 @@ export default function QuizDetail() {
           {/* Loading quiz */}
           {loading && (
             <div className="bg-white rounded-2xl p-8 text-center">
-              <LoaderCircle className="w-8 h-8 animate-spin text-emerald-700 mx-auto mb-3" />
+              <LoaderCircle className="w-8 h-8 animate-spin text-green-700 mx-auto mb-3" />
               <p className="text-sm text-gray-500">Loading quiz...</p>
             </div>
           )}
@@ -334,7 +334,7 @@ export default function QuizDetail() {
               <button
                 type="button"
                 onClick={handleRetryLoading}
-                className="mt-4 inline-flex items-center gap-2 bg-emerald-700 text-white px-4 py-2 rounded-xl text-sm"
+                className="mt-4 inline-flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-xl text-sm"
               >
                 <RefreshCw className="w-4 h-4" />
                 Try Again
@@ -347,12 +347,12 @@ export default function QuizDetail() {
               {/* Quiz information */}
               <section className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm mb-5">
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-green-100 text-green-800 flex items-center justify-center flex-shrink-0">
                     <ClipboardList className="w-6 h-6" />
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-semibold text-emerald-700 flex flex-row justify-between items-center gap-2">
+                    <p className="text-xs font-semibold text-green-700 flex flex-row justify-between items-center gap-2">
                       QUIZ #{quiz.id}
                       <span
                         className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
@@ -383,7 +383,7 @@ export default function QuizDetail() {
               {/* Checking saved score */}
               {checkingAttempt && (
                 <div className="bg-white border border-gray-100 rounded-2xl p-4 mb-5 flex items-center gap-3">
-                  <LoaderCircle className="w-5 h-5 animate-spin text-emerald-700" />
+                  <LoaderCircle className="w-5 h-5 animate-spin text-green-700" />
                   <p className="text-sm text-gray-600">
                     Checking your previous score...
                   </p>
@@ -392,9 +392,9 @@ export default function QuizDetail() {
 
               {/* Saved score */}
               {!checkingAttempt && existingAttempt && (
-                <section className="bg-white border border-emerald-200 rounded-2xl p-4 mb-5 shadow-sm">
+                <section className="bg-white border border-green-200 rounded-2xl p-4 mb-5 shadow-sm">
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                    <div className="w-11 h-11 rounded-xl bg-green-100 text-green-700 flex items-center justify-center flex-shrink-0">
                       <Trophy className="w-6 h-6" />
                     </div>
 
@@ -408,7 +408,7 @@ export default function QuizDetail() {
                         {existingAttempt.total_questions} correct answers
                       </p>
 
-                      <p className="text-sm font-bold text-emerald-700 mt-1">
+                      <p className="text-sm font-bold text-green-700 mt-1">
                         {Number(
                           existingAttempt.percentage ??
                             (Number(existingAttempt.total_questions) > 0
@@ -425,7 +425,7 @@ export default function QuizDetail() {
                   <button
                     type="button"
                     onClick={() => setShowAnswerReview((previous) => !previous)}
-                    className="w-full mt-4 flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm py-3"
+                    className="w-full mt-4 flex items-center justify-center gap-2 rounded-xl bg-green-700 hover:bg-green-800 text-white font-bold text-sm py-3"
                   >
                     {showAnswerReview ? (
                       <EyeOff className="w-5 h-5" />
@@ -468,7 +468,7 @@ export default function QuizDetail() {
 
                   <div className="w-full h-2.5 rounded-full bg-gray-200 overflow-hidden">
                     <div
-                      className="h-full bg-emerald-600 rounded-full transition-all duration-300"
+                      className="h-full bg-green-600 rounded-full transition-all duration-300"
                       style={{
                         width: `${
                           totalQuestions > 0
@@ -510,7 +510,7 @@ export default function QuizDetail() {
                     >
                       {/* Question */}
                       <div className="flex items-start gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 font-bold text-sm flex items-center justify-center flex-shrink-0">
+                        <div className="w-9 h-9 rounded-xl bg-green-100 text-green-800 font-bold text-sm flex items-center justify-center flex-shrink-0">
                           {index + 1}
                         </div>
 
@@ -534,12 +534,12 @@ export default function QuizDetail() {
 
                           if (!submitted && isSelected) {
                             choiceStyle =
-                              "border-emerald-500 bg-emerald-50 text-emerald-900 ring-1 ring-emerald-500";
+                              "border-green-500 bg-green-50 text-green-900 ring-1 ring-green-500";
                           }
 
                           if (reviewVisible && isCorrectChoice) {
                             choiceStyle =
-                              "border-emerald-400 bg-emerald-50 text-emerald-900";
+                              "border-green-400 bg-green-50 text-green-900";
                           } else if (
                             reviewVisible &&
                             isSelected &&
@@ -568,13 +568,13 @@ export default function QuizDetail() {
                               <span
                                 className={`w-6 h-6 flex-shrink-0 flex items-center justify-center rounded-lg text-xs font-bold ${
                                   reviewVisible && isCorrectChoice
-                                    ? "bg-emerald-200 text-emerald-800"
+                                    ? "bg-green-200 text-green-800"
                                     : reviewVisible &&
                                         isSelected &&
                                         !isCorrectChoice
                                       ? "bg-red-200 text-red-800"
                                       : isSelected
-                                        ? "bg-emerald-600 text-white"
+                                        ? "bg-green-600 text-white"
                                         : "bg-gray-100 text-gray-600"
                                 }`}
                               >
@@ -586,7 +586,7 @@ export default function QuizDetail() {
                               </span>
 
                               {reviewVisible && isCorrectChoice && (
-                                <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-emerald-600" />
+                                <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-green-600" />
                               )}
 
                               {reviewVisible &&
@@ -601,16 +601,16 @@ export default function QuizDetail() {
 
                       {/* Correct answer and explanation */}
                       {reviewVisible && (
-                        <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3">
+                        <div className="mt-4 rounded-xl border border-green-200 bg-green-50 p-3">
                           <div className="flex items-center gap-2">
-                            <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                            <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
 
-                            <p className="text-sm font-bold text-emerald-800">
+                            <p className="text-sm font-bold text-green-800">
                               Correct Answer
                             </p>
                           </div>
 
-                          <p className="text-sm text-emerald-900 mt-2 leading-relaxed whitespace-pre-wrap">
+                          <p className="text-sm text-green-900 mt-2 leading-relaxed whitespace-pre-wrap">
                             <span className="font-bold">
                               {question.correct_answer}.
                             </span>{" "}
@@ -624,7 +624,7 @@ export default function QuizDetail() {
                           </p>
 
                           {question.explanation?.trim() && (
-                            <div className="mt-3 pt-3 border-t border-emerald-200 flex items-start gap-2">
+                            <div className="mt-3 pt-3 border-t border-green-200 flex items-start gap-2">
                               <Lightbulb className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
 
                               <div>
@@ -662,7 +662,7 @@ export default function QuizDetail() {
                         type="button"
                         onClick={() => setShowAddModal(true)}
                         disabled={checkingAttempt || !!attemptError}
-                        className="mt-4 inline-flex items-center gap-2 bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-emerald-800 disabled:opacity-50"
+                        className="mt-4 inline-flex items-center gap-2 bg-green-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-green-800 disabled:opacity-50"
                       >
                         <Plus className="w-4 h-4" />
                         Add First Question
@@ -692,7 +692,7 @@ export default function QuizDetail() {
                       !!attemptError ||
                       !!existingAttempt
                     }
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm py-3.5 px-4 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-green-700 hover:bg-green-800 text-white font-bold text-sm py-3.5 px-4 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {submitting ? (
                       <>
@@ -715,8 +715,8 @@ export default function QuizDetail() {
 
               {/* Score summary */}
               {submitted && result && (
-                <section className="mt-6 mb-4 bg-white border border-emerald-200 rounded-2xl p-5 shadow-sm">
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+                <section className="mt-6 mb-4 bg-white border border-green-200 rounded-2xl p-5 shadow-sm">
+                  <div className="w-14 h-14 rounded-2xl bg-green-100 text-green-700 flex items-center justify-center mx-auto">
                     <Trophy className="w-7 h-7" />
                   </div>
 
@@ -731,7 +731,7 @@ export default function QuizDetail() {
                   </p>
 
                   <div className="text-center mt-5">
-                    <p className="text-4xl font-extrabold text-emerald-700">
+                    <p className="text-4xl font-extrabold text-green-700">
                       {result.score}/{result.total_questions}
                     </p>
 
@@ -746,14 +746,14 @@ export default function QuizDetail() {
                         Final Percentage
                       </span>
 
-                      <span className="text-lg font-extrabold text-emerald-700">
+                      <span className="text-lg font-extrabold text-green-700">
                         {Number(percentage).toFixed(2)}%
                       </span>
                     </div>
 
                     <div className="w-full h-2.5 bg-gray-200 rounded-full mt-3 overflow-hidden">
                       <div
-                        className="h-full bg-emerald-600 rounded-full transition-all duration-500"
+                        className="h-full bg-green-600 rounded-full transition-all duration-500"
                         style={{
                           width: `${Math.min(
                             100,
@@ -779,7 +779,7 @@ export default function QuizDetail() {
                   <button
                     type="button"
                     onClick={() => setShowAnswerReview((previous) => !previous)}
-                    className="w-full mt-4 flex items-center justify-center gap-2 rounded-xl border border-emerald-700 text-emerald-800 hover:bg-emerald-50 font-bold text-sm py-3"
+                    className="w-full mt-4 flex items-center justify-center gap-2 rounded-xl border border-green-700 text-green-800 hover:bg-green-50 font-bold text-sm py-3"
                   >
                     {showAnswerReview ? (
                       <EyeOff className="w-5 h-5" />
@@ -795,7 +795,7 @@ export default function QuizDetail() {
                   <button
                     type="button"
                     onClick={() => navigate("/quizzes")}
-                    className="w-full mt-3 flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm py-3"
+                    className="w-full mt-3 flex items-center justify-center gap-2 rounded-xl bg-green-700 hover:bg-green-800 text-white font-bold text-sm py-3"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     Back to Quizzes

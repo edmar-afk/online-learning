@@ -393,7 +393,7 @@ export default function LessonDetails() {
     return (
       <div className="flex min-h-screen justify-center bg-gray-100">
         <div className="flex min-h-screen w-full max-w-md flex-col items-center justify-center bg-gray-50 text-gray-500">
-          <LoaderCircle className="mb-3 h-9 w-9 animate-spin text-emerald-700" />
+          <LoaderCircle className="mb-3 h-9 w-9 animate-spin text-green-700" />
           <p className="text-sm">Loading lesson...</p>
         </div>
         <BottomNav />
@@ -418,7 +418,7 @@ export default function LessonDetails() {
           <button
             type="button"
             onClick={fetchLesson}
-            className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-800 px-4 py-3 text-sm font-semibold text-white"
+            className="mt-5 flex items-center gap-2 rounded-xl bg-green-800 px-4 py-3 text-sm font-semibold text-white"
           >
             <RefreshCw className="h-4 w-4" />
             Try Again
@@ -427,7 +427,7 @@ export default function LessonDetails() {
           <button
             type="button"
             onClick={() => navigate("/lessons")}
-            className="mt-3 text-sm font-medium text-emerald-800"
+            className="mt-3 text-sm font-medium text-green-800"
           >
             Back to Lessons
           </button>
@@ -445,11 +445,11 @@ export default function LessonDetails() {
   return (
     <div className="flex min-h-screen justify-center bg-gray-100">
       <div className="min-h-screen w-full max-w-md bg-gray-50 pb-24 shadow-xl">
-        <header className="sticky top-0 z-20 flex items-center gap-3 bg-emerald-800 px-4 py-5 text-white shadow-md">
+        <header className="sticky top-0 z-20 flex items-center gap-3 bg-green-800 px-4 py-5 text-white shadow-md">
           <button
             type="button"
             onClick={() => navigate("/lessons")}
-            className="rounded-full p-1 transition hover:bg-emerald-700"
+            className="rounded-full p-1 transition hover:bg-green-700"
             aria-label="Back to lessons"
           >
             <ArrowLeft className="h-6 w-6" />
@@ -459,7 +459,7 @@ export default function LessonDetails() {
             <h1 className="truncate text-lg font-semibold">
               Lesson Details
             </h1>
-            <p className="text-xs text-emerald-100">
+            <p className="text-xs text-green-100">
               View and manage learning materials
             </p>
           </div>
@@ -487,14 +487,14 @@ export default function LessonDetails() {
               }}
             />
           ) : (
-            <div className="flex h-44 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100">
-              <ImageIcon className="h-16 w-16 text-emerald-300" />
+            <div className="flex h-44 items-center justify-center rounded-2xl bg-gradient-to-br from-green-50 to-green-100">
+              <ImageIcon className="h-16 w-16 text-green-300" />
             </div>
           )}
 
           <section className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
             {lesson.topic && (
-              <span className="mb-3 inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">
+              <span className="mb-3 inline-flex rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-800">
                 {lesson.topic}
               </span>
             )}
@@ -505,12 +505,12 @@ export default function LessonDetails() {
 
             <div className="mt-4 flex flex-wrap gap-3 text-xs text-gray-500">
               <span className="flex items-center gap-1.5 rounded-lg bg-gray-50 px-3 py-2">
-                <BookOpen className="h-4 w-4 text-emerald-700" />
+                <BookOpen className="h-4 w-4 text-green-700" />
                 Lesson #{lesson.id}
               </span>
 
               <span className="flex items-center gap-1.5 rounded-lg bg-gray-50 px-3 py-2">
-                <Video className="h-4 w-4 text-emerald-700" />
+                <Video className="h-4 w-4 text-green-700" />
                 {(lesson.videos || []).length} videos
               </span>
             </div>
@@ -529,7 +529,7 @@ export default function LessonDetails() {
                 aria-valuenow={progress}
               >
                 <div
-                  className="h-full rounded-full bg-emerald-600 transition-all duration-150"
+                  className="h-full rounded-full bg-green-600 transition-all duration-150"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -561,15 +561,15 @@ export default function LessonDetails() {
                 </p>
               </div>
 
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
+              <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800">
                 {visibleVideos.length}
               </span>
             </div>
 
             {visibleVideos.length === 0 ? (
               <div className="rounded-2xl border border-gray-100 bg-white px-5 py-10 text-center shadow-sm">
-                <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50">
-                  <FileVideo className="h-7 w-7 text-emerald-700" />
+                <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50">
+                  <FileVideo className="h-7 w-7 text-green-700" />
                 </div>
 
                 <h3 className="font-semibold text-gray-900">
@@ -584,7 +584,7 @@ export default function LessonDetails() {
                   <button
                     type="button"
                     onClick={openEditModal}
-                    className="mt-4 inline-flex items-center gap-2 rounded-xl bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-900"
+                    className="mt-4 inline-flex items-center gap-2 rounded-xl bg-green-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-green-900"
                   >
                     <Plus className="h-4 w-4" />
                     Add Videos
@@ -599,8 +599,8 @@ export default function LessonDetails() {
                     className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
                   >
                     <div className="flex items-center gap-3 p-4">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-50">
-                        <Video className="h-6 w-6 text-emerald-700" />
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-50">
+                        <Video className="h-6 w-6 text-green-700" />
                       </div>
 
                       <div className="min-w-0 flex-1">
@@ -616,7 +616,7 @@ export default function LessonDetails() {
                         href={getMediaURL(item.video)}
                         target="_blank"
                         rel="noreferrer"
-                        className="rounded-xl bg-emerald-800 p-2.5 text-white transition hover:bg-emerald-900"
+                        className="rounded-xl bg-green-800 p-2.5 text-white transition hover:bg-green-900"
                         aria-label={`Open video ${index + 1}`}
                       >
                         <Play className="h-4 w-4" />
@@ -717,7 +717,7 @@ export default function LessonDetails() {
                   value={form.title}
                   onChange={handleFormChange}
                   required
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
                 />
               </div>
 
@@ -730,7 +730,7 @@ export default function LessonDetails() {
                   name="topic"
                   value={form.topic}
                   onChange={handleFormChange}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
                 />
               </div>
 
@@ -744,7 +744,7 @@ export default function LessonDetails() {
                   value={form.description}
                   onChange={handleFormChange}
                   rows={4}
-                  className="w-full resize-y rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="w-full resize-y rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
                 />
               </div>
 
@@ -777,8 +777,8 @@ export default function LessonDetails() {
                   </p>
                 )}
 
-                <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 p-4 hover:border-emerald-500">
-                  <ImageIcon className="h-6 w-6 text-emerald-700" />
+                <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 p-4 hover:border-green-500">
+                  <ImageIcon className="h-6 w-6 text-green-700" />
 
                   <span className="min-w-0 flex-1 text-sm text-gray-600">
                     {newImage
@@ -834,7 +834,7 @@ export default function LessonDetails() {
                               : "border-gray-100 bg-gray-50"
                           }`}
                         >
-                          <Video className="h-5 w-5 shrink-0 text-emerald-700" />
+                          <Video className="h-5 w-5 shrink-0 text-green-700" />
 
                           <span
                             className={`min-w-0 flex-1 break-all text-xs ${
@@ -878,8 +878,8 @@ export default function LessonDetails() {
                   Add More Videos
                 </label>
 
-                <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 p-4 hover:border-emerald-500">
-                  <Upload className="h-6 w-6 text-emerald-700" />
+                <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 p-4 hover:border-green-500">
+                  <Upload className="h-6 w-6 text-green-700" />
 
                   <span className="min-w-0 flex-1 text-sm text-gray-600">
                     Select multiple video files
@@ -905,9 +905,9 @@ export default function LessonDetails() {
                     {newVideos.map((video, index) => (
                       <div
                         key={`${video.name}-${video.size}-${index}`}
-                        className="flex items-center gap-3 rounded-lg bg-emerald-50 p-3"
+                        className="flex items-center gap-3 rounded-lg bg-green-50 p-3"
                       >
-                        <Video className="h-5 w-5 shrink-0 text-emerald-700" />
+                        <Video className="h-5 w-5 shrink-0 text-green-700" />
 
                         <span className="min-w-0 flex-1 truncate text-xs text-gray-700">
                           {video.name}
@@ -944,7 +944,7 @@ export default function LessonDetails() {
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-800 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-900 disabled:opacity-50"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-green-800 px-4 py-3 text-sm font-semibold text-white hover:bg-green-900 disabled:opacity-50"
                 >
                   {isSaving ? (
                     <LoaderCircle className="h-4 w-4 animate-spin" />

@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from "react";
 
 import {
-  ChefHat,
-  Soup,
   User,
   Mail,
   GraduationCap,
@@ -37,10 +35,10 @@ const initialFormData = {
 };
 
 const inputClass =
-  "w-full h-11 pl-10 pr-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#2d682c] focus:ring-2 focus:ring-[#2d682c]/10 transition";
+  "w-full h-11 pl-10 pr-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#1E6B38] focus:ring-2 focus:ring-[#1E6B38]/10 transition shadow-sm";
 
 const selectClass =
-  "appearance-none w-full h-11 pl-10 pr-10 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-700 outline-none focus:border-[#2d682c] focus:ring-2 focus:ring-[#2d682c]/10 transition";
+  "appearance-none w-full h-11 pl-10 pr-10 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 outline-none focus:border-[#1E6B38] focus:ring-2 focus:ring-[#1E6B38]/10 transition shadow-sm";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -214,86 +212,77 @@ export default function Register() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-white px-5 py-7 font-sans">
-      {/* Decorative background icons */}
-
-      <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-[0.08]">
-        <ChefHat className="absolute bottom-8 left-7 h-16 w-16 text-green-700" />
-
-        <Soup className="absolute bottom-8 right-7 h-16 w-16 text-green-700" />
-
-        <BookOpen className="absolute left-8 top-1/3 h-14 w-14 text-green-700" />
-
-        <GraduationCap className="absolute right-8 top-1/3 h-14 w-14 text-green-700" />
+    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-white px-5 py-6 font-sans select-none">
+      {/* Top Decorative Green Waves */}
+      <div className="absolute top-0 left-0 right-0 pointer-events-none">
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          className="w-full h-24 text-[#1E6B38]"
+        >
+          <path
+            fill="currentColor"
+            d="M0,0 L500,0 L500,60 C400,120 300,40 180,80 C80,110 0,60 0,60 Z"
+          />
+        </svg>
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          className="w-full h-20 text-[#1E6B38] opacity-60 -mt-16"
+        >
+          <path
+            fill="currentColor"
+            d="M0,0 L500,0 L500,40 C350,90 250,20 120,70 C50,90 0,40 0,40 Z"
+          />
+        </svg>
       </div>
 
-      <main className="relative z-10 flex w-full max-w-sm flex-col items-center">
-        {/* Logo */}
+      <main className="relative z-10 flex w-full max-w-xs flex-col items-center mt-12">
+        {/* LOGO */}
+        <div className="my-2 flex items-center justify-center">
+          <svg
+            className="w-32 h-32 text-[#1E6B38]"
+            viewBox="0 0 200 200"
+            fill="currentColor"
+          >
+            {/* Spoon */}
+            <path d="M 45 60 C 35 60 25 75 25 95 C 25 110 35 120 45 120 L 45 150 C 45 155 49 155 49 150 L 49 120 C 59 120 65 110 65 95 C 65 75 55 60 45 60 Z M 45 112 C 37 112 33 103 33 95 C 33 80 40 68 45 68 C 50 68 57 80 57 95 C 57 103 53 112 45 112 Z" />
 
-        <div className="relative mt-2 flex items-center justify-center">
-          <div className="z-20 mr-[-10px] text-green-700">
-            <svg className="h-14 w-10" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M7 2v6c0 1.1.9 2 2 2s2-.9 2-2V2h2v6c0 2.21-1.79 4-4 4S5 10.21 5 8V2h2zm2 13h2v7H9v-7z" />
-            </svg>
-          </div>
+            {/* Chef Hat + Open Book */}
+            <path d="M 100 30 C 90 30 83 37 83 46 C 78 46 73 51 73 57 C 73 63 77 67 82 68 L 118 68 C 123 67 127 63 127 57 C 127 51 122 46 117 46 C 117 37 110 30 100 30 Z" />
+            <path d="M 100 80 L 70 68 L 70 115 L 100 128 L 130 115 L 130 68 Z M 96 120 L 76 109 L 76 76 L 96 85 Z M 124 109 L 104 120 L 104 85 L 124 76 Z" />
 
-          <div className="relative flex flex-col items-center">
-            <div className="relative flex h-28 w-28 flex-col items-center justify-center rounded-full bg-[#2d682c] shadow-md">
-              <ChefHat className="absolute -top-8 h-20 w-20 stroke-[2.5] text-[#2d682c]" />
-
-              <div className="mb-1 mt-4 flex space-x-1.5 text-white">
-                <span className="h-3 w-0.5 animate-pulse rounded-full bg-white" />
-
-                <span className="h-4 w-0.5 animate-pulse rounded-full bg-white delay-75" />
-
-                <span className="h-3 w-0.5 animate-pulse rounded-full bg-white delay-150" />
-              </div>
-
-              <div className="flex h-7 w-16 items-center justify-center rounded-b-full border-2 border-white bg-[#f47b20] shadow-inner">
-                <div className="-mt-1 h-1 w-10 rounded-full bg-[#d96515]" />
-              </div>
-            </div>
-          </div>
-
-          <div className="z-20 ml-[-10px] text-green-700">
-            <svg className="h-14 w-10" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C9.24 2 7 4.24 7 7c0 2.21 1.41 4.09 3.38 4.75L10 22h4l-.38-10.25C15.59 11.09 17 9.21 17 7c0-2.76-2.24-5-5-5z" />
-            </svg>
-          </div>
+            {/* Fork */}
+            <path d="M 155 60 L 151 60 L 151 90 C 151 96 147 100 143 100 L 143 150 C 143 155 147 155 147 150 L 147 106 C 153 106 159 101 159 95 L 159 60 Z M 146 82 L 146 64 L 149 64 L 149 82 Z M 153 82 L 153 64 L 156 64 L 156 82 Z" />
+          </svg>
         </div>
 
-        <h1 className="mt-4 text-2xl font-extrabold tracking-wide">
-          <span className="text-[#2d682c]">COOK</span>
-
-          <span className="mx-1.5 text-gray-700">&</span>
-
-          <span className="text-[#f47b20]">LEARN</span>
+        {/* TITLE & SUBTITLE */}
+        <h1 className="text-xl font-extrabold text-[#1E6B38] tracking-tight text-center leading-snug">
+          Mobile-Based Learning System
         </h1>
-
-        <p className="mt-1 text-base font-medium text-gray-800">
-          Create your account
+        <p className="text-[#1E6B38] font-medium text-xs text-center mt-1">
+          with Multimedia Content and Automated Evaluation
         </p>
 
-        <div className="relative my-5 flex w-full items-center justify-center">
-          <div className="absolute w-full border-t border-green-700/60" />
-
-          <div className="relative z-10 h-2.5 w-2.5 rounded-full bg-green-700" />
+        {/* BADGE BANNER */}
+        <div className="mt-3 w-full bg-[#D8EFE0] text-[#1E6B38] font-semibold py-2 px-3 rounded-full text-xs text-center shadow-sm">
+          <span className="font-normal">(Quantity Cookery)</span>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full space-y-3">
+        <form onSubmit={handleSubmit} className="w-full space-y-3 mt-4">
           {/* Role selection */}
-
           <fieldset>
-            <legend className="mb-2 block text-xs font-semibold text-gray-600">
+            <legend className="mb-1.5 block text-xs font-semibold text-gray-600">
               Register as
             </legend>
 
             <div className="grid grid-cols-2 gap-3">
               <label
-                className={`flex cursor-pointer items-center gap-2 rounded-xl border p-3 transition ${
+                className={`flex cursor-pointer items-center gap-2 rounded-xl border p-3 transition shadow-sm ${
                   role === "student"
-                    ? "border-[#2d682c] bg-green-50 ring-2 ring-[#2d682c]/10"
-                    : "border-gray-200 bg-gray-50 hover:border-green-300"
+                    ? "border-[#1E6B38] bg-green-50 ring-2 ring-[#1E6B38]/10"
+                    : "border-gray-200 bg-white hover:border-green-300"
                 }`}
               >
                 <input
@@ -302,10 +291,10 @@ export default function Register() {
                   value="student"
                   checked={role === "student"}
                   onChange={handleRoleChange}
-                  className="accent-[#2d682c]"
+                  className="accent-[#1E6B38]"
                 />
 
-                <GraduationCap size={18} className="text-[#2d682c]" />
+                <GraduationCap size={18} className="text-[#1E6B38]" />
 
                 <span className="text-sm font-semibold text-gray-700">
                   Student
@@ -313,10 +302,10 @@ export default function Register() {
               </label>
 
               <label
-                className={`flex cursor-pointer items-center gap-2 rounded-xl border p-3 transition ${
+                className={`flex cursor-pointer items-center gap-2 rounded-xl border p-3 transition shadow-sm ${
                   role === "teacher"
-                    ? "border-[#2d682c] bg-green-50 ring-2 ring-[#2d682c]/10"
-                    : "border-gray-200 bg-gray-50 hover:border-green-300"
+                    ? "border-[#1E6B38] bg-green-50 ring-2 ring-[#1E6B38]/10"
+                    : "border-gray-200 bg-white hover:border-green-300"
                 }`}
               >
                 <input
@@ -325,10 +314,10 @@ export default function Register() {
                   value="teacher"
                   checked={role === "teacher"}
                   onChange={handleRoleChange}
-                  className="accent-[#2d682c]"
+                  className="accent-[#1E6B38]"
                 />
 
-                <Users size={18} className="text-[#2d682c]" />
+                <Users size={18} className="text-[#1E6B38]" />
 
                 <span className="text-sm font-semibold text-gray-700">
                   Teacher
@@ -338,7 +327,6 @@ export default function Register() {
           </fieldset>
 
           {/* Full name */}
-
           <div>
             <label className="mb-1 block text-xs font-semibold text-gray-600">
               Full Name
@@ -347,7 +335,7 @@ export default function Register() {
             <div className="relative">
               <User
                 size={17}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
               />
 
               <input
@@ -364,7 +352,6 @@ export default function Register() {
           </div>
 
           {/* Student school ID OR teacher email */}
-
           {role === "student" ? (
             <div>
               <label className="mb-1 block text-xs font-semibold text-gray-600">
@@ -374,7 +361,7 @@ export default function Register() {
               <div className="relative">
                 <IdCard
                   size={17}
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
                 />
 
                 <input
@@ -402,7 +389,7 @@ export default function Register() {
               <div className="relative">
                 <Mail
                   size={17}
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
                 />
 
                 <input
@@ -424,7 +411,6 @@ export default function Register() {
           )}
 
           {/* Student-only fields */}
-
           {role === "student" && (
             <>
               <div>
@@ -435,7 +421,7 @@ export default function Register() {
                 <div className="relative">
                   <GraduationCap
                     size={17}
-                    className="absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-[#2d682c]"
+                    className="absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-gray-400"
                   />
 
                   <select
@@ -471,7 +457,7 @@ export default function Register() {
                 <div className="relative">
                   <BookOpen
                     size={17}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
                   />
 
                   <input
@@ -489,7 +475,6 @@ export default function Register() {
           )}
 
           {/* Password */}
-
           <div>
             <label className="mb-1 block text-xs font-semibold text-gray-600">
               Password
@@ -498,7 +483,7 @@ export default function Register() {
             <div className="relative">
               <Lock
                 size={17}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
               />
 
               <input
@@ -517,7 +502,7 @@ export default function Register() {
                 type="button"
                 onClick={() => setShowPassword((visible) => !visible)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2d682c]"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#1E6B38]"
               >
                 {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
               </button>
@@ -531,7 +516,6 @@ export default function Register() {
           </div>
 
           {/* Confirm password */}
-
           <div>
             <label className="mb-1 block text-xs font-semibold text-gray-600">
               Retype Password
@@ -540,7 +524,7 @@ export default function Register() {
             <div className="relative">
               <Lock
                 size={17}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2d682c]"
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
               />
 
               <input
@@ -568,7 +552,7 @@ export default function Register() {
                     ? "Hide confirm password"
                     : "Show confirm password"
                 }
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2d682c]"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#1E6B38]"
               >
                 {showConfirmPassword ? <EyeOff size={17} /> : <Eye size={17} />}
               </button>
@@ -581,12 +565,11 @@ export default function Register() {
             )}
 
             {passwordsMatch && (
-              <p className="mt-1 text-xs text-green-700">Passwords match.</p>
+              <p className="mt-1 text-xs text-[#1E6B38]">Passwords match.</p>
             )}
           </div>
 
           {/* API messages */}
-
           {errorMessage && (
             <div
               role="alert"
@@ -599,18 +582,17 @@ export default function Register() {
           {successMessage && (
             <div
               role="status"
-              className="rounded-xl border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800"
+              className="rounded-xl border border-green-200 bg-green-50 px-3 py-2 text-sm text-[#1E6B38]"
             >
               {successMessage}
             </div>
           )}
 
           {/* Submit */}
-
           <button
             type="submit"
             disabled={!isFormValid || isSubmitting}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#2d682c] py-3 font-semibold text-white shadow-md transition-all duration-200 hover:bg-[#245523] active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#1E6B38] py-3 font-semibold text-white shadow-md transition-all duration-200 hover:bg-[#16522a] active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none"
           >
             {isSubmitting ? (
               <>
@@ -626,19 +608,43 @@ export default function Register() {
           </button>
         </form>
 
-        <div className="mb-6 mt-5 text-center">
+        <div className="mb-24 mt-4 text-center">
           <p className="inline text-xs text-gray-500">
             Already have an account?
           </p>
 
           <Link
             to="/login"
-            className="ml-1 text-sm font-semibold text-[#2d682c] transition hover:text-[#f47b20]"
+            className="ml-1 text-xs font-semibold text-[#1E6B38] hover:underline transition"
           >
             Login
           </Link>
         </div>
       </main>
+
+      {/* Bottom Decorative Green Waves */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          className="w-full h-20 text-[#1E6B38] opacity-60 -mb-15"
+        >
+          <path
+            fill="currentColor"
+            d="M0,150 L500,150 L500,110 C380,60 280,130 150,80 C50,50 0,110 0,110 Z"
+          />
+        </svg>
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          className="w-full h-24 text-[#1E6B38]"
+        >
+          <path
+            fill="currentColor"
+            d="M0,150 L500,150 L500,90 C400,30 300,110 180,70 C80,40 0,90 0,90 Z"
+          />
+        </svg>
+      </div>
     </div>
   );
 }
