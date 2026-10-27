@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,12 +11,43 @@ import {
   LoaderCircle,
   RefreshCw,
 } from "lucide-react";
+
 import BottomNav from "../components/BottomNav";
 import CreateLessonModal from "../components/lessons/CreateLessonModal";
 import api from "../assets/api";
 
+// Safely retrieve the logged-in user's information.
+function getStoredUserInfo() {
+  try {
+    const storedUser = localStorage.getItem("userInfo");
+    return storedUser ? JSON.parse(storedUser) : null;
+  } catch (error) {
+    console.error("Failed to parse userInfo:", error);
+    return null;
+  }
+}
+
+// Support the role structure used by your application.
+function getUserRole(userInfo) {
+  const role =
+    userInfo?.role ??
+    userInfo?.extra_info?.role ??
+    userInfo?.user?.role ??
+    userInfo?.user?.extra_info?.role ??
+    userInfo?.profile?.role ??
+    "";
+
+  return String(role).trim().toLowerCase();
+}
+
 export default function Lessons() {
   const navigate = useNavigate();
+
+  const [userInfo] = useState(() => getStoredUserInfo());
+
+  // Your saved userInfo contains extra_info.role = "teacher".
+  const role = getUserRole(userInfo);
+  const isTeacher = role === "teacher";
 
   const [lessons, setLessons] = useState([]);
   const [search, setSearch] = useState("");
@@ -25,30 +55,24 @@ export default function Lessons() {
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const storedUser = localStorage.getItem("userInfo");
-  let userInfo = null;
-
-  try {
-    userInfo = storedUser ? JSON.parse(storedUser) : null;
-  } catch {
-    userInfo = null;
-  }
-
-  const isTeacher =
-    (userInfo?.role || userInfo?.user?.role || "").toLowerCase() ===
-    "teacher";
-
+  // Convert relative media paths into absolute URLs.
   const mediaBaseURL = (api.defaults?.baseURL || "")
     .replace(/\/api\/?$/, "")
     .replace(/\/+$/, "");
 
   const getMediaURL = (path) => {
-    if (!path) return "";
-    if (/^https?:\/\//i.test(path)) return path;
+    if (!path || typeof path !== "string") {
+      return "";
+    }
+
+    if (/^https?:\/\//i.test(path)) {
+      return path;
+    }
 
     return `${mediaBaseURL}${path.startsWith("/") ? path : `/${path}`}`;
   };
 
+  // Fetch lessons from the API.
   const fetchLessons = useCallback(async () => {
     try {
       setLoading(true);
@@ -57,13 +81,23 @@ export default function Lessons() {
       const response = await api.get("/lessons/");
       const data = response.data;
 
-      setLessons(
-        Array.isArray(data) ? data : Array.isArray(data?.results) ? data.results : []
-      );
+      const lessonList = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.results)
+          ? data.results
+          : [];
+
+      setLessons(lessonList);
     } catch (err) {
-      console.error("Failed to fetch lessons:", err);
+      console.error(
+        "Failed to fetch lessons:",
+        err.response?.data || err.message
+      );
+
       setError(
-        "Unable to load lessons. Please check your connection and try again."
+        err.response?.data?.detail ||
+          err.response?.data?.message ||
+          "Unable to load lessons. Please check your connection and try again."
       );
     } finally {
       setLoading(false);
@@ -73,6 +107,16 @@ export default function Lessons() {
   useEffect(() => {
     fetchLessons();
   }, [fetchLessons]);
+
+  // Open the lesson creation modal.
+  const openCreateModal = () => {
+    if (!isTeacher) {
+      console.warn("Only teachers can create lessons.");
+      return;
+    }
+
+    setIsModalOpen(true);
+  };
 
   // Save the most recently visited lesson.
   const handleLessonClick = (lesson) => {
@@ -93,13 +137,15 @@ export default function Lessons() {
       const isSameLesson =
         String(previous?.id) === String(lesson.id);
 
+      const previousProgress = Number(previous?.progress) || 0;
+
       const lessonProgress = {
         id: lesson.id,
         title: lesson.title || "Untitled Lesson",
         topic: lesson.topic || "",
         url: lessonURL,
         progress: isSameLesson
-          ? Math.min(100, Math.max(0, Number(previous?.progress) || 0))
+          ? Math.min(100, Math.max(0, previousProgress))
           : 0,
         lastVisited: new Date().toISOString(),
       };
@@ -115,19 +161,27 @@ export default function Lessons() {
     navigate(lessonURL);
   };
 
-  const filteredLessons = lessons.filter((lesson) => {
-    const keyword = search.toLowerCase().trim();
+  // Filter lessons by title, topic, or description.
+  const keyword = search.trim().toLowerCase();
 
+  const filteredLessons = lessons.filter((lesson) => {
     return (
-      (lesson.title || "").toLowerCase().includes(keyword) ||
-      (lesson.topic || "").toLowerCase().includes(keyword) ||
-      (lesson.description || "").toLowerCase().includes(keyword)
+      String(lesson.title || "").toLowerCase().includes(keyword) ||
+      String(lesson.topic || "").toLowerCase().includes(keyword) ||
+      String(lesson.description || "").toLowerCase().includes(keyword)
     );
   });
+
+  // Close the modal and refresh the list after creation.
+  const handleLessonCreated = async () => {
+    setIsModalOpen(false);
+    await fetchLessons();
+  };
 
   return (
     <div className="flex min-h-screen justify-center bg-gray-100">
       <div className="flex min-h-screen w-full max-w-md flex-col bg-gray-50 shadow-xl">
+        {/* Header */}
         <header className="sticky top-0 z-20 bg-green-900 px-4 py-5 text-white shadow-md">
           <div className="flex items-center justify-between gap-3">
             <button
@@ -143,16 +197,18 @@ export default function Lessons() {
               <h1 className="text-lg font-semibold tracking-wide">
                 Lessons
               </h1>
+
               <p className="mt-0.5 text-xs text-green-100">
                 {lessons.length}{" "}
                 {lessons.length === 1 ? "lesson" : "lessons"} available
               </p>
             </div>
 
+            {/* Add button is visible only to teachers. */}
             {isTeacher && (
               <button
                 type="button"
-                onClick={() => setIsModalOpen(true)}
+                onClick={openCreateModal}
                 className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-2.5 text-sm font-semibold text-green-900 shadow-sm transition hover:bg-green-50"
               >
                 <Plus className="h-4 w-4" />
@@ -162,7 +218,9 @@ export default function Lessons() {
           </div>
         </header>
 
+        {/* Main Content */}
         <main className="mb-24 flex-1 space-y-4 overflow-y-auto px-4 py-5">
+          {/* Search */}
           <div className="relative">
             <Search className="absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
 
@@ -175,32 +233,35 @@ export default function Lessons() {
             />
           </div>
 
+          {/* Loading */}
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 text-gray-500">
               <LoaderCircle className="mb-3 h-8 w-8 animate-spin text-green-700" />
               <p className="text-sm">Loading lessons...</p>
             </div>
           ) : error ? (
+            /* Error */
             <div className="rounded-2xl border border-red-100 bg-white px-5 py-8 text-center">
               <p className="text-sm text-red-600">{error}</p>
 
               <button
                 type="button"
                 onClick={fetchLessons}
-                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-green-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-green-900"
+                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-green-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-green-800"
               >
                 <RefreshCw className="h-4 w-4" />
                 Try Again
               </button>
             </div>
           ) : filteredLessons.length === 0 ? (
+            /* Empty State */
             <div className="rounded-2xl border border-gray-100 bg-white px-5 py-12 text-center shadow-sm">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-50">
                 <BookOpen className="h-8 w-8 text-green-700" />
               </div>
 
               <h2 className="font-semibold text-gray-900">
-                {search
+                {keyword
                   ? "No matching lessons"
                   : isTeacher
                     ? "No lessons yet"
@@ -208,18 +269,18 @@ export default function Lessons() {
               </h2>
 
               <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-gray-500">
-                {search
+                {keyword
                   ? "Try a different title, topic, or keyword."
                   : isTeacher
                     ? "Create your first lesson and upload learning materials for your students."
                     : "There are no lessons available yet. Please check again later."}
               </p>
 
-              {!search && isTeacher && (
+              {!keyword && isTeacher && (
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(true)}
-                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-green-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-green-900"
+                  onClick={openCreateModal}
+                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-green-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-green-800"
                 >
                   <Plus className="h-4 w-4" />
                   Create First Lesson
@@ -227,9 +288,13 @@ export default function Lessons() {
               )}
             </div>
           ) : (
+            /* Lesson Cards */
             <div className="space-y-4">
               {filteredLessons.map((lesson) => {
-                const videoCount = lesson.videos?.length || 0;
+                const videoCount = Array.isArray(lesson.videos)
+                  ? lesson.videos.length
+                  : 0;
+
                 const imageURL = getMediaURL(lesson.image);
 
                 return (
@@ -239,6 +304,7 @@ export default function Lessons() {
                     onClick={() => handleLessonClick(lesson)}
                     className="w-full overflow-hidden rounded-2xl border border-gray-100 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                   >
+                    {/* Lesson Image */}
                     {imageURL ? (
                       <img
                         src={imageURL}
@@ -277,6 +343,7 @@ export default function Lessons() {
                         </p>
                       )}
 
+                      {/* Media Information */}
                       <div className="flex items-center gap-4 border-t border-gray-100 pt-3 text-xs text-gray-500">
                         <span className="inline-flex items-center gap-1.5">
                           <Video className="h-4 w-4 text-green-700" />
@@ -302,11 +369,12 @@ export default function Lessons() {
 
       <BottomNav />
 
+      {/* Create Lesson Modal */}
       {isTeacher && (
         <CreateLessonModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onCreated={fetchLessons}
+          onCreated={handleLessonCreated}
         />
       )}
     </div>

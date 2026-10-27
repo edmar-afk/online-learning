@@ -11,19 +11,43 @@ import {
   Plus,
   LoaderCircle,
   RefreshCw,
-  CheckCircle2,
 } from "lucide-react";
+
 import BottomNav from "../components/BottomNav";
 import CreateQuizModal from "../components/quizzes/CreateQuizModal";
 import api from "../assets/api";
 
+function getStoredUserInfo() {
+  try {
+    const storedUser = localStorage.getItem("userInfo");
+    return storedUser ? JSON.parse(storedUser) : null;
+  } catch (error) {
+    console.error("Failed to parse userInfo from localStorage:", error);
+    return null;
+  }
+}
+
+function getUserRole(userInfo) {
+  const role =
+    userInfo?.role ??
+    userInfo?.extra_info?.role ??
+    userInfo?.user?.role ??
+    userInfo?.user?.extra_info?.role ??
+    userInfo?.profile?.role ??
+    "";
+
+  return String(role).trim().toLowerCase();
+}
+
 function Quizzes() {
   const navigate = useNavigate();
-  const storedUser = localStorage.getItem("userInfo");
-  const userInfo = storedUser ? JSON.parse(storedUser) : null;
 
-  const isTeacher =
-    (userInfo?.role || userInfo?.user?.role || "").toLowerCase() === "teacher";
+  // Read the logged-in user.
+  const [userInfo] = useState(() => getStoredUserInfo());
+
+  // The role in your saved userInfo is extra_info.role.
+  const role = getUserRole(userInfo);
+  const isTeacher = role === "teacher";
 
   const [search, setSearch] = useState("");
   const [quizzes, setQuizzes] = useState([]);
@@ -37,24 +61,35 @@ function Quizzes() {
       setLoading(true);
       setError("");
 
+      // Fetch all available quizzes.
       const response = await api.get("/quizzes/");
 
-      const data = Array.isArray(response.data)
-        ? response.data
-        : response.data.results || [];
+      const responseData = response.data;
+
+      const data = Array.isArray(responseData)
+        ? responseData
+        : Array.isArray(responseData?.results)
+          ? responseData.results
+          : [];
 
       setQuizzes(data);
 
-      // Get the logged-in user's saved attempt for each quiz.
-      const storedUser = localStorage.getItem("userInfo");
-      const userInfo = storedUser ? JSON.parse(storedUser) : null;
-      const token = userInfo?.access || userInfo?.user?.access;
+      // Retrieve the access token.
+      const currentUser = getStoredUserInfo();
 
+      const token =
+        currentUser?.access ??
+        currentUser?.user?.access ??
+        currentUser?.access_token ??
+        currentUser?.user?.access_token;
+
+      // Without a token, quizzes can still be displayed.
       if (!token) {
         setAttempts({});
         return;
       }
 
+      // Retrieve each quiz's saved attempt.
       const attemptResults = await Promise.all(
         data.map(async (quiz) => {
           try {
@@ -69,12 +104,17 @@ function Quizzes() {
 
             return [quiz.id, attemptResponse.data];
           } catch (err) {
-            // A 404 means this user has not taken this quiz yet.
+            // A 404 means no saved attempt was found.
             if (err.response?.status === 404) {
               return [quiz.id, null];
             }
 
-            console.error(`Failed to load score for quiz ${quiz.id}:`, err);
+            // A 401/403 or other error should not prevent
+            // the remaining quiz cards from displaying.
+            console.error(
+              `Failed to load attempt for quiz ${quiz.id}:`,
+              err.response?.data || err.message,
+            );
 
             return [quiz.id, null];
           }
@@ -83,9 +123,14 @@ function Quizzes() {
 
       setAttempts(Object.fromEntries(attemptResults));
     } catch (err) {
-      console.error("Failed to fetch quizzes:", err);
+      console.error(
+        "Failed to fetch quizzes:",
+        err.response?.data || err.message,
+      );
+
       setError(
         err.response?.data?.detail ||
+          err.response?.data?.message ||
           "Unable to load quizzes. Please check your connection and try again.",
       );
     } finally {
@@ -97,17 +142,20 @@ function Quizzes() {
     fetchQuizzes();
   }, [fetchQuizzes]);
 
+  // Filter quizzes by title.
   const filteredQuizzes = quizzes.filter((quiz) =>
-    (quiz.title || "").toLowerCase().includes(search.toLowerCase()),
+    String(quiz.title || "")
+      .toLowerCase()
+      .includes(search.trim().toLowerCase()),
   );
 
   const getDifficultyStyle = (difficulty) => {
-    switch (difficulty) {
-      case "Easy":
+    switch (String(difficulty || "").toLowerCase()) {
+      case "easy":
         return "bg-green-50 text-green-700";
-      case "Medium":
+      case "medium":
         return "bg-amber-50 text-amber-700";
-      case "Hard":
+      case "hard":
         return "bg-red-50 text-red-600";
       default:
         return "bg-gray-100 text-gray-600";
@@ -115,12 +163,12 @@ function Quizzes() {
   };
 
   const getQuizColor = (difficulty) => {
-    switch (difficulty) {
-      case "Easy":
+    switch (String(difficulty || "").toLowerCase()) {
+      case "easy":
         return "bg-emerald-600";
-      case "Medium":
+      case "medium":
         return "bg-amber-500";
-      case "Hard":
+      case "hard":
         return "bg-red-500";
       default:
         return "bg-blue-500";
@@ -128,12 +176,12 @@ function Quizzes() {
   };
 
   const getQuizIcon = (difficulty) => {
-    switch (difficulty) {
-      case "Easy":
+    switch (String(difficulty || "").toLowerCase()) {
+      case "easy":
         return "🍳";
-      case "Medium":
+      case "medium":
         return "🍲";
-      case "Hard":
+      case "hard":
         return "👨‍🍳";
       default:
         return "📝";
@@ -145,6 +193,15 @@ function Quizzes() {
     fetchQuizzes();
   };
 
+  const openCreateModal = () => {
+    if (!isTeacher) {
+      console.warn("Only teachers can create quizzes.");
+      return;
+    }
+
+    setShowCreateModal(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center">
       <div className="w-full max-w-md bg-gray-50 flex flex-col shadow-xl min-h-screen">
@@ -153,6 +210,7 @@ function Quizzes() {
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <button
+                type="button"
                 onClick={() => navigate(-1)}
                 className="hover:opacity-80 transition-opacity focus:outline-none"
                 aria-label="Go back"
@@ -160,7 +218,7 @@ function Quizzes() {
                 <ArrowLeft className="w-6 h-6" />
               </button>
 
-              <div>
+              <div className="min-w-0">
                 <h1 className="text-lg font-semibold tracking-wide">
                   Cooking Quizzes
                 </h1>
@@ -170,10 +228,11 @@ function Quizzes() {
               </div>
             </div>
 
+            {/* Only show Create to teachers. */}
             {isTeacher && (
               <button
                 type="button"
-                onClick={() => setShowCreateModal(true)}
+                onClick={openCreateModal}
                 className="flex items-center gap-1.5 bg-white text-emerald-800 px-3 py-2 rounded-xl text-xs font-bold hover:bg-emerald-50 transition flex-shrink-0"
               >
                 <Plus className="w-4 h-4" />
@@ -263,24 +322,26 @@ function Quizzes() {
           )}
 
           {/* Quiz Cards */}
-
-          {/* Quiz Cards */}
           {!loading && !error && (
             <div className="space-y-4">
               {filteredQuizzes.map((quiz) => {
                 const questionCount = Number(quiz.number_of_questions) || 0;
+
                 const attempt = attempts[quiz.id];
 
                 const hasAttempt =
-                  attempt &&
+                  attempt != null &&
                   attempt.score !== undefined &&
                   attempt.total_questions !== undefined;
+
+                const score = Number(attempt?.score) || 0;
+                const totalQuestions = Number(attempt?.total_questions) || 0;
 
                 const percentage = hasAttempt
                   ? Number(
                       attempt.percentage ??
-                        (attempt.total_questions > 0
-                          ? (attempt.score / attempt.total_questions) * 100
+                        (totalQuestions > 0
+                          ? (score / totalQuestions) * 100
                           : 0),
                     )
                   : 0;
@@ -305,8 +366,9 @@ function Quizzes() {
 
                         <div className="flex-1 min-w-0">
                           <h3 className="text-sm font-bold text-gray-900 leading-5 break-words">
-                            {quiz.title}
+                            {quiz.title || "Untitled Quiz"}
                           </h3>
+
                           <p className="text-xs text-gray-400 mt-1">
                             Quiz #{quiz.id}
                           </p>
@@ -353,17 +415,21 @@ function Quizzes() {
                               <p className="text-xs font-semibold text-gray-800">
                                 Your Score
                               </p>
+
                               <p className="text-[11px] text-gray-500 mt-0.5">
-                                {attempt.score} out of {attempt.total_questions}{" "}
-                                correct
+                                {score} out of {totalQuestions} correct
                               </p>
                             </div>
                           </div>
 
                           <div className="text-right shrink-0">
                             <p className="text-lg font-bold text-green-900 leading-5">
-                              {percentage.toFixed(0)}%
+                              {Number.isFinite(percentage)
+                                ? percentage.toFixed(0)
+                                : "0"}
+                              %
                             </p>
+
                             <p className="text-[10px] text-gray-400 mt-1">
                               Completed
                             </p>
@@ -380,6 +446,7 @@ function Quizzes() {
                               <p className="text-xs font-semibold text-gray-700">
                                 Not taken yet
                               </p>
+
                               <p className="text-[11px] text-gray-400 mt-0.5">
                                 Tap to start this quiz
                               </p>
@@ -402,21 +469,23 @@ function Quizzes() {
                   <Search className="w-10 h-10 text-gray-300 mx-auto mb-3" />
 
                   <h3 className="text-sm font-semibold text-gray-700">
-                    {search ? "No quizzes found" : "No quizzes available"}
+                    {search.trim()
+                      ? "No quizzes found"
+                      : "No quizzes available"}
                   </h3>
 
                   <p className="text-xs text-gray-400 mt-1">
-                    {search
+                    {search.trim()
                       ? "Try searching for another quiz title."
                       : isTeacher
                         ? "Create your first quiz to get started."
                         : "There are no quizzes available yet. Please wait for the teacher."}
                   </p>
 
-                  {!search && isTeacher && (
+                  {!search.trim() && isTeacher && (
                     <button
                       type="button"
-                      onClick={() => setShowCreateModal(true)}
+                      onClick={openCreateModal}
                       className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-900 text-white text-sm font-semibold hover:bg-emerald-800"
                     >
                       <Plus className="w-4 h-4" />
