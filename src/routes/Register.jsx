@@ -9,6 +9,7 @@ import {
   Eye,
   EyeOff,
   ArrowRight,
+  ArrowLeft,
   IdCard,
   Users,
   LoaderCircle,
@@ -213,6 +214,15 @@ export default function Register() {
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-white px-5 py-6 font-sans select-none">
+      {/* Back Button */}
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="absolute top-20 left-5 z-30 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#1E6B38] shadow-md transition hover:bg-green-50 active:scale-95"
+        aria-label="Go back"
+      >
+        <ArrowLeft size={22} />
+      </button>
       {/* Top Decorative Green Waves */}
       <div className="absolute top-0 left-0 right-0 pointer-events-none">
         <svg
@@ -272,7 +282,7 @@ export default function Register() {
 
         <form onSubmit={handleSubmit} className="w-full space-y-3 mt-4">
           {/* Role selection */}
-          <fieldset>
+          {/* <fieldset>
             <legend className="mb-1.5 block text-xs font-semibold text-gray-600">
               Register as
             </legend>
@@ -324,7 +334,7 @@ export default function Register() {
                 </span>
               </label>
             </div>
-          </fieldset>
+          </fieldset> */}
 
           {/* Full name */}
           <div>
@@ -608,7 +618,7 @@ export default function Register() {
           </button>
         </form>
 
-        <div className="mb-24 mt-4 text-center">
+        {/* <div className="mb-24 mt-4 text-center">
           <p className="inline text-xs text-gray-500">
             Already have an account?
           </p>
@@ -619,7 +629,7 @@ export default function Register() {
           >
             Login
           </Link>
-        </div>
+        </div> */}
       </main>
 
       {/* Bottom Decorative Green Waves */}

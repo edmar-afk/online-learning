@@ -1,6 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FiBookOpen, FiEdit3, FiMonitor, FiTrendingUp } from "react-icons/fi";
+import {
+  FiBookOpen,
+  FiEdit3,
+  FiMonitor,
+  FiTrendingUp,
+  FiUser,
+} from "react-icons/fi";
 
 function QuickAccessItem({ icon, label, color, link }) {
   return (
@@ -40,6 +46,13 @@ export default function QuickAccessTeacher() {
       <h2 className="font-bold text-gray-900 text-lg mb-5">Quick Access</h2>
 
       <div className="grid grid-cols-2 gap-4 text-center">
+        <QuickAccessItem
+          icon={<FiUser />}
+          label="Register Student"
+          link="/register"
+          color="bg-green-900"
+        />
+
         <QuickAccessItem
           icon={<FiBookOpen />}
           label="Manage Lesson Materials"
