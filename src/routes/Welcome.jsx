@@ -122,7 +122,7 @@ export default function Welcome() {
             </Link>
 
             {/* Register Button */}
-            <Link
+            {/* <Link
               to={"/register"}
               className="
                 w-full
@@ -142,7 +142,7 @@ export default function Welcome() {
             >
               <UserPlus className="w-5 h-5" />
               Register
-            </Link>
+            </Link> */}
 
             {/* Small Separator */}
             <div className="flex items-center w-full mt-4 mb-24"></div>
