@@ -317,21 +317,7 @@ export default function Login() {
 
         {/* REGISTER LINK */}
         <div className="flex items-center justify-center mt-4">
-          <p className="text-xs text-gray-500">Don't have an account?</p>
-
-          <Link
-            to={"/register"}
-            className="
-              ml-1
-              text-xs
-              font-semibold
-              text-[#1E6B38]
-              hover:underline
-              transition
-            "
-          >
-            Register
-          </Link>
+          <p className="text-xs text-center text-gray-500">Don't have an account? Ask Teacher physically for Account Creation.</p>
         </div>
       </div>
 
