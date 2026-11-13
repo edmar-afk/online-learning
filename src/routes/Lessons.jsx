@@ -10,7 +10,10 @@ import {
   Image as ImageIcon,
   LoaderCircle,
   RefreshCw,
+  Trash2,
 } from "lucide-react";
+
+import Swal from "sweetalert2";
 
 import BottomNav from "../components/BottomNav";
 import CreateLessonModal from "../components/lessons/CreateLessonModal";
@@ -45,7 +48,7 @@ export default function Lessons() {
 
   const [userInfo] = useState(() => getStoredUserInfo());
 
-  // Your saved userInfo contains extra_info.role = "teacher".
+  // Teacher role
   const role = getUserRole(userInfo);
   const isTeacher = role === "teacher";
 
@@ -54,6 +57,7 @@ export default function Lessons() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deletingLessonId, setDeletingLessonId] = useState(null);
 
   // Convert relative media paths into absolute URLs.
   const mediaBaseURL = (api.defaults?.baseURL || "")
@@ -91,13 +95,13 @@ export default function Lessons() {
     } catch (err) {
       console.error(
         "Failed to fetch lessons:",
-        err.response?.data || err.message
+        err.response?.data || err.message,
       );
 
       setError(
         err.response?.data?.detail ||
           err.response?.data?.message ||
-          "Unable to load lessons. Please check your connection and try again."
+          "Unable to load lessons. Please check your connection and try again.",
       );
     } finally {
       setLoading(false);
@@ -118,6 +122,100 @@ export default function Lessons() {
     setIsModalOpen(true);
   };
 
+  // ==========================================================
+  // DELETE LESSON WITH SWEETALERT2
+  // ==========================================================
+  const handleDeleteLesson = async (e, lesson) => {
+    // Prevent opening the lesson when clicking delete.
+    e.stopPropagation();
+
+    if (!isTeacher || deletingLessonId !== null) {
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: "Delete Lesson?",
+      html: `
+        <p style="color:#6b7280;font-size:14px;">
+          Are you sure you want to delete
+          <strong style="color:#111827;">
+            ${String(lesson.title || "Untitled Lesson")
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;")}
+          </strong>?
+        </p>
+        <p style="color:#dc2626;font-size:12px;margin-top:10px;">
+          This action cannot be undone.
+        </p>
+      `,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      reverseButtons: true,
+      focusCancel: true,
+    });
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    try {
+      setDeletingLessonId(lesson.id);
+
+      await api.delete(`/lessons/${lesson.id}/`);
+
+      // Remove deleted lesson from the current list.
+      setLessons((previousLessons) =>
+        previousLessons.filter((item) => String(item.id) !== String(lesson.id)),
+      );
+
+      // Remove saved local progress if it belongs to this lesson.
+      try {
+        const savedProgress = JSON.parse(
+          localStorage.getItem("lessonProgress") || "null",
+        );
+
+        if (String(savedProgress?.id) === String(lesson.id)) {
+          localStorage.removeItem("lessonProgress");
+        }
+      } catch (storageError) {
+        console.error("Failed to update saved lesson progress:", storageError);
+      }
+
+      await Swal.fire({
+        title: "Deleted!",
+        text: "The lesson has been deleted successfully.",
+        icon: "success",
+        confirmButtonColor: "#166534",
+        timer: 1800,
+        timerProgressBar: true,
+      });
+    } catch (err) {
+      console.error(
+        "Failed to delete lesson:",
+        err.response?.data || err.message,
+      );
+
+      Swal.fire({
+        title: "Delete Failed",
+        text:
+          err.response?.data?.detail ||
+          err.response?.data?.message ||
+          "Unable to delete this lesson. Please try again.",
+        icon: "error",
+        confirmButtonColor: "#166534",
+      });
+    } finally {
+      setDeletingLessonId(null);
+    }
+  };
+
   // Save the most recently visited lesson.
   const handleLessonClick = (lesson) => {
     const storageKey = "lessonProgress";
@@ -127,15 +225,12 @@ export default function Lessons() {
       let previous = null;
 
       try {
-        previous = JSON.parse(
-          localStorage.getItem(storageKey) || "null"
-        );
+        previous = JSON.parse(localStorage.getItem(storageKey) || "null");
       } catch {
         previous = null;
       }
 
-      const isSameLesson =
-        String(previous?.id) === String(lesson.id);
+      const isSameLesson = String(previous?.id) === String(lesson.id);
 
       const previousProgress = Number(previous?.progress) || 0;
 
@@ -150,10 +245,7 @@ export default function Lessons() {
         lastVisited: new Date().toISOString(),
       };
 
-      localStorage.setItem(
-        storageKey,
-        JSON.stringify(lessonProgress)
-      );
+      localStorage.setItem(storageKey, JSON.stringify(lessonProgress));
     } catch (err) {
       console.error("Unable to save lesson progress:", err);
     }
@@ -166,13 +258,19 @@ export default function Lessons() {
 
   const filteredLessons = lessons.filter((lesson) => {
     return (
-      String(lesson.title || "").toLowerCase().includes(keyword) ||
-      String(lesson.topic || "").toLowerCase().includes(keyword) ||
-      String(lesson.description || "").toLowerCase().includes(keyword)
+      String(lesson.title || "")
+        .toLowerCase()
+        .includes(keyword) ||
+      String(lesson.topic || "")
+        .toLowerCase()
+        .includes(keyword) ||
+      String(lesson.description || "")
+        .toLowerCase()
+        .includes(keyword)
     );
   });
 
-  // Close the modal and refresh the list after creation.
+  // Close modal and refresh after creation.
   const handleLessonCreated = async () => {
     setIsModalOpen(false);
     await fetchLessons();
@@ -194,17 +292,15 @@ export default function Lessons() {
             </button>
 
             <div className="min-w-0 flex-1">
-              <h1 className="text-lg font-semibold tracking-wide">
-                Lessons
-              </h1>
+              <h1 className="text-lg font-semibold tracking-wide">Lessons</h1>
 
               <p className="mt-0.5 text-xs text-green-100">
-                {lessons.length}{" "}
-                {lessons.length === 1 ? "lesson" : "lessons"} available
+                {lessons.length} {lessons.length === 1 ? "lesson" : "lessons"}{" "}
+                available
               </p>
             </div>
 
-            {/* Add button is visible only to teachers. */}
+            {/* Add button - teachers only */}
             {isTeacher && (
               <button
                 type="button"
@@ -296,70 +392,94 @@ export default function Lessons() {
                   : 0;
 
                 const imageURL = getMediaURL(lesson.image);
+                const isDeleting =
+                  String(deletingLessonId) === String(lesson.id);
 
                 return (
-                  <button
+                  <div
                     key={lesson.id}
-                    type="button"
-                    onClick={() => handleLessonClick(lesson)}
-                    className="w-full overflow-hidden rounded-2xl border border-gray-100 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                   >
-                    {/* Lesson Image */}
-                    {imageURL ? (
-                      <img
-                        src={imageURL}
-                        alt={lesson.title || "Lesson image"}
-                        className="h-44 w-full bg-gray-100 object-cover"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
-                    ) : (
-                      <div className="flex h-36 items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
-                        <ImageIcon className="h-12 w-12 text-green-300" />
-                      </div>
+                    {/* Teacher-only Delete Button */}
+                    {isTeacher && (
+                      <button
+                        type="button"
+                        onClick={(e) => handleDeleteLesson(e, lesson)}
+                        disabled={deletingLessonId !== null}
+                        title="Delete lesson"
+                        aria-label={`Delete ${lesson.title || "lesson"}`}
+                        className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-xl border border-red-100 bg-white/95 text-red-600 shadow-md backdrop-blur-sm transition hover:bg-red-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {isDeleting ? (
+                          <LoaderCircle className="h-5 w-5 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-5 w-5" />
+                        )}
+                      </button>
                     )}
 
-                    <div className="p-4">
-                      <div className="mb-2 flex items-start justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <h2 className="break-words text-base font-bold text-gray-900">
-                            {lesson.title || "Untitled Lesson"}
-                          </h2>
+                    {/* Lesson Content - Click to open */}
+                    <button
+                      type="button"
+                      onClick={() => handleLessonClick(lesson)}
+                      className="block w-full text-left"
+                    >
+                      {/* Lesson Image */}
+                      {imageURL ? (
+                        <img
+                          src={imageURL}
+                          alt={lesson.title || "Lesson image"}
+                          className="h-44 w-full bg-gray-100 object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                      ) : (
+                        <div className="flex h-36 items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
+                          <ImageIcon className="h-12 w-12 text-green-300" />
+                        </div>
+                      )}
 
-                          {lesson.topic && (
-                            <span className="mt-2 inline-block rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-900">
-                              {lesson.topic}
+                      <div className="p-4">
+                        <div className="mb-2 flex items-start justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            <h2 className="break-words text-base font-bold text-gray-900">
+                              {lesson.title || "Untitled Lesson"}
+                            </h2>
+
+                            {lesson.topic && (
+                              <span className="mt-2 inline-block rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-900">
+                                {lesson.topic}
+                              </span>
+                            )}
+                          </div>
+
+                          <ChevronRight className="mt-1 h-5 w-5 shrink-0 text-gray-400" />
+                        </div>
+
+                        {lesson.description && (
+                          <p className="mb-4 line-clamp-3 text-sm leading-6 text-gray-500">
+                            {lesson.description}
+                          </p>
+                        )}
+
+                        {/* Media Information */}
+                        <div className="flex items-center gap-4 border-t border-gray-100 pt-3 text-xs text-gray-500">
+                          <span className="inline-flex items-center gap-1.5">
+                            <Video className="h-4 w-4 text-green-700" />
+                            {videoCount} {videoCount === 1 ? "video" : "videos"}
+                          </span>
+
+                          {lesson.image && (
+                            <span className="inline-flex items-center gap-1.5">
+                              <ImageIcon className="h-4 w-4 text-green-700" />
+                              Image included
                             </span>
                           )}
                         </div>
-
-                        <ChevronRight className="mt-1 h-5 w-5 shrink-0 text-gray-400" />
                       </div>
-
-                      {lesson.description && (
-                        <p className="mb-4 line-clamp-3 text-sm leading-6 text-gray-500">
-                          {lesson.description}
-                        </p>
-                      )}
-
-                      {/* Media Information */}
-                      <div className="flex items-center gap-4 border-t border-gray-100 pt-3 text-xs text-gray-500">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Video className="h-4 w-4 text-green-700" />
-                          {videoCount}{" "}
-                          {videoCount === 1 ? "video" : "videos"}
-                        </span>
-
-                        {lesson.image && (
-                          <span className="inline-flex items-center gap-1.5">
-                            <ImageIcon className="h-4 w-4 text-green-700" />
-                            Image included
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </button>
+                    </button>
+                  </div>
                 );
               })}
             </div>

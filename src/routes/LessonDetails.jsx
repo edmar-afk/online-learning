@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -44,6 +43,7 @@ export default function LessonDetails() {
     description: "",
   });
 
+  // Get logged-in user information.
   const storedUser = localStorage.getItem("userInfo");
   let userInfo = null;
 
@@ -53,9 +53,10 @@ export default function LessonDetails() {
     userInfo = null;
   }
 
-  const isTeacher =
-    (userInfo?.role || userInfo?.user?.role || "").toLowerCase() ===
-    "teacher";
+  const userRole = (userInfo?.role || userInfo?.user?.role || "").toLowerCase();
+
+  const isTeacher = userRole === "teacher";
+  const isStudent = !isTeacher;
 
   const mediaBaseURL = (api.defaults?.baseURL || "")
     .replace(/\/api\/?$/, "")
@@ -81,7 +82,7 @@ export default function LessonDetails() {
       setError(
         err.response?.status === 404
           ? "This lesson could not be found."
-          : "Unable to load this lesson. Please try again."
+          : "Unable to load this lesson. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -92,8 +93,11 @@ export default function LessonDetails() {
     fetchLesson();
   }, [fetchLesson]);
 
-  // Save this lesson and track how far the student has scrolled.
+  // Reading progress is ONLY tracked for students.
+  // Teachers will not save, restore, or overwrite reading progress.
   useEffect(() => {
+    if (isTeacher) return;
+
     if (!lesson || String(lesson.id) !== String(id)) return;
 
     const storageKey = "lessonProgress";
@@ -140,20 +144,17 @@ export default function LessonDetails() {
     const calculateProgress = () => {
       const documentHeight = Math.max(
         document.documentElement.scrollHeight,
-        document.body?.scrollHeight || 0
+        document.body?.scrollHeight || 0,
       );
 
-      const maxScroll = Math.max(
-        0,
-        documentHeight - window.innerHeight
-      );
+      const maxScroll = Math.max(0, documentHeight - window.innerHeight);
 
       if (maxScroll <= 0) {
         return 100;
       }
 
       return Math.round(
-        Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100))
+        Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100)),
       );
     };
 
@@ -161,11 +162,8 @@ export default function LessonDetails() {
       if (restoring) return;
 
       try {
-        const current = JSON.parse(
-          localStorage.getItem(storageKey) || "null"
-        );
+        const current = JSON.parse(localStorage.getItem(storageKey) || "null");
 
-        // Do not overwrite a different lesson's record.
         if (String(current?.id) !== String(lesson.id)) return;
 
         const nextProgress = calculateProgress();
@@ -192,20 +190,12 @@ export default function LessonDetails() {
 
       const documentHeight = Math.max(
         document.documentElement.scrollHeight,
-        document.body?.scrollHeight || 0
+        document.body?.scrollHeight || 0,
       );
 
-      const maxScroll = Math.max(
-        0,
-        documentHeight - window.innerHeight
-      );
+      const maxScroll = Math.max(0, documentHeight - window.innerHeight);
 
-      // Wait for the content to have enough height to restore the position.
-      if (
-        initialProgress > 0 &&
-        maxScroll <= 0 &&
-        restoreAttempts < 10
-      ) {
+      if (initialProgress > 0 && maxScroll <= 0 && restoreAttempts < 10) {
         retryFrame = requestAnimationFrame(restoreScroll);
         return;
       }
@@ -232,7 +222,7 @@ export default function LessonDetails() {
       window.removeEventListener("scroll", saveProgress);
       window.removeEventListener("pagehide", saveProgress);
     };
-  }, [lesson, id]);
+  }, [lesson, id, isTeacher]);
 
   const openEditModal = () => {
     setForm({
@@ -290,22 +280,24 @@ export default function LessonDetails() {
 
       await api.patch(`/lessons/${id}/`, formData);
 
-      // Update the saved title without resetting reading progress.
+      // Update the student's saved lesson title without resetting progress.
       try {
-        const saved = JSON.parse(
-          localStorage.getItem("lessonProgress") || "null"
-        );
-
-        if (String(saved?.id) === String(id)) {
-          localStorage.setItem(
-            "lessonProgress",
-            JSON.stringify({
-              ...saved,
-              title: form.title.trim(),
-              topic: form.topic,
-              url: `/lessons/${id}`,
-            })
+        if (isStudent) {
+          const saved = JSON.parse(
+            localStorage.getItem("lessonProgress") || "null",
           );
+
+          if (String(saved?.id) === String(id)) {
+            localStorage.setItem(
+              "lessonProgress",
+              JSON.stringify({
+                ...saved,
+                title: form.title.trim(),
+                topic: form.topic,
+                url: `/lessons/${id}`,
+              }),
+            );
+          }
         }
       } catch (storageError) {
         console.error("Unable to update saved lesson title:", storageError);
@@ -331,7 +323,7 @@ export default function LessonDetails() {
                 return `${field}: ${value}`;
               })
               .join(" | ")
-          : "Unable to update the lesson. Please try again."
+          : "Unable to update the lesson. Please try again.",
       );
     } finally {
       setIsSaving(false);
@@ -342,7 +334,7 @@ export default function LessonDetails() {
     const confirmed = window.confirm(
       `Are you sure you want to delete "${
         lesson.title || "this lesson"
-      }"? This action cannot be undone.`
+      }"? This action cannot be undone.`,
     );
 
     if (!confirmed) return;
@@ -354,7 +346,7 @@ export default function LessonDetails() {
 
       try {
         const saved = JSON.parse(
-          localStorage.getItem("lessonProgress") || "null"
+          localStorage.getItem("lessonProgress") || "null",
         );
 
         if (String(saved?.id) === String(id)) {
@@ -375,7 +367,7 @@ export default function LessonDetails() {
 
   const handleDeleteVideo = async (videoId) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this video?"
+      "Are you sure you want to delete this video?",
     );
 
     if (!confirmed) return;
@@ -439,7 +431,7 @@ export default function LessonDetails() {
   }
 
   const visibleVideos = (lesson.videos || []).filter(
-    (video) => !deleteVideoIds.includes(video.id)
+    (video) => !deleteVideoIds.includes(video.id),
   );
 
   return (
@@ -456,9 +448,7 @@ export default function LessonDetails() {
           </button>
 
           <div className="min-w-0 flex-1">
-            <h1 className="truncate text-lg font-semibold">
-              Lesson Details
-            </h1>
+            <h1 className="truncate text-lg font-semibold">Lesson Details</h1>
             <p className="text-xs text-green-100">
               View and manage learning materials
             </p>
@@ -515,29 +505,32 @@ export default function LessonDetails() {
               </span>
             </div>
 
-            <div className="mt-5 border-t border-gray-100 pt-4">
-              <h3 className="mb-2 font-semibold text-gray-900">
-                Reading Progress
-              </h3>
+            {/* READING PROGRESS: STUDENTS ONLY */}
+            {isStudent && (
+              <div className="mt-5 border-t border-gray-100 pt-4">
+                <h3 className="mb-2 font-semibold text-gray-900">
+                  Reading Progress
+                </h3>
 
-              <div
-                className="h-2.5 overflow-hidden rounded-full bg-gray-100"
-                role="progressbar"
-                aria-label="Lesson reading progress"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={progress}
-              >
                 <div
-                  className="h-full rounded-full bg-green-600 transition-all duration-150"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
+                  className="h-2.5 overflow-hidden rounded-full bg-gray-100"
+                  role="progressbar"
+                  aria-label="Lesson reading progress"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={progress}
+                >
+                  <div
+                    className="h-full rounded-full bg-green-600 transition-all duration-150"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
 
-              <p className="mt-2 text-xs text-gray-500">
-                {progress}% completed
-              </p>
-            </div>
+                <p className="mt-2 text-xs text-gray-500">
+                  {progress}% completed
+                </p>
+              </div>
+            )}
 
             <div className="mt-5 border-t border-gray-100 pt-4">
               <h3 className="mb-2 font-semibold text-gray-900">
@@ -681,9 +674,7 @@ export default function LessonDetails() {
           <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white shadow-2xl">
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-100 bg-white px-5 py-4">
               <div>
-                <h2 className="text-lg font-bold text-gray-900">
-                  Edit Lesson
-                </h2>
+                <h2 className="text-lg font-bold text-gray-900">Edit Lesson</h2>
                 <p className="mt-1 text-xs text-gray-500">
                   Update details and manage uploaded files.
                 </p>
@@ -817,9 +808,7 @@ export default function LessonDetails() {
                 </label>
 
                 {(lesson.videos || []).length === 0 ? (
-                  <p className="text-sm text-gray-500">
-                    No videos uploaded.
-                  </p>
+                  <p className="text-sm text-gray-500">No videos uploaded.</p>
                 ) : (
                   <div className="space-y-2">
                     {(lesson.videos || []).map((item) => {
@@ -843,8 +832,7 @@ export default function LessonDetails() {
                                 : "text-gray-600"
                             }`}
                           >
-                            {item.video?.split("/").pop() ||
-                              `Video ${item.id}`}
+                            {item.video?.split("/").pop() || `Video ${item.id}`}
                           </span>
 
                           <button
@@ -853,9 +841,9 @@ export default function LessonDetails() {
                               setDeleteVideoIds((prev) =>
                                 marked
                                   ? prev.filter(
-                                      (videoId) => videoId !== item.id
+                                      (videoId) => videoId !== item.id,
                                     )
-                                  : [...prev, item.id]
+                                  : [...prev, item.id],
                               )
                             }
                             className={`shrink-0 rounded-lg px-3 py-2 text-xs font-semibold ${
@@ -917,7 +905,7 @@ export default function LessonDetails() {
                           type="button"
                           onClick={() =>
                             setNewVideos((prev) =>
-                              prev.filter((_, i) => i !== index)
+                              prev.filter((_, i) => i !== index),
                             )
                           }
                           className="rounded-lg p-1 text-red-600 hover:bg-red-100"
